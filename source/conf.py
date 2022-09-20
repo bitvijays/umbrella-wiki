@@ -1,3 +1,5 @@
+import sphinx_theme
+
 # Configuration file for the Sphinx documentation builder.
 #
 # For the full list of built-in configuration values, see the documentation:
@@ -6,9 +8,9 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'Umbrella_Wiki_User'
-copyright = '2022, Umbrella_Team'
-author = 'Umbrella_Team'
+project = 'UMBRELLA Wiki'
+copyright = '2022, Umbrella Team'
+author = 'Umbrella Team'
 release = '0.0.1'
 
 # -- General configuration ---------------------------------------------------
@@ -24,7 +26,7 @@ exclude_patterns = []
 # You can specify multiple suffix as a list of string:
 #
 # source_suffix = ['.rst', '.md']
-source_suffix = '.md'
+#source_suffix = '.md'
 
 # The master toctree document.
 master_doc = 'index'

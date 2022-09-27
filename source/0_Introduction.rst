@@ -1,26 +1,40 @@
 Introduction
 ************
 
-- UMBRELLA provides an open, programmable, real-world platform for testing and evaluating innovation in robotics, wireless communication, smart city and general Internet of Things applications.
-- It is a three-tier architecture consisting of a Backend (servers), an Edge (Small board computers) deployed on the street lamps/citizen houses/buildings and Endpoints (onboard sensors). 
-- It consists of two smaller testbeds: smart city sensing and robotics.
+- Umbrella stands for urban multi-wireless broadband and IoT testing for local authority and industrial applications. 
+- It aims to be a centre of excellence for open research, innovation, and future industrial IoT.
+- It is supported by the West of England Local Enterprise Partnership in conjunction with South Gloucestershire Council.
+- The aim is to integrate many testbeds into a single system and address different use cases, including Smart City test beds for air quality monitoring, remote maintenance, and radio testing; Cybersecurity test beds; industrial 5g; and collaborative robotics.
+
+Here is a small video to provide a brief introduction.
+
+.. video:: _static/Video/UMBRELLA_Video.mp4
+   :width: 500
+   :height: 300
 
 TestBeds
 ========
 
+UMBRELLA consists of two testbeds
+
+- Smart city sensing and wireless
+- Robotics.
+
 Smart City Sensing and Wireless Testbed
 ---------------------------------------
 
-It is deployed from the UWE Frenchay campus east to Bristol and Bath Science Park west, along the A4174 (a key thoroughfare in South Gloucestershire). It provide a real-world platform for testing wireless algorithms and protocols and smart city sensing. It consists of 
+- Deployed from the UWE Frenchay campus east to Bristol and Bath Science Park west, along the A4174 (a key thoroughfare in South Gloucestershire). 
+- Provides a real-world platform for testing wireless algorithms, protocols, and smart city sensing. 
+- Consists of
+ 
+    - 230 UMBRELLA Nodes (mounted on lamp posts)
+    - 1000+ Wireless Radio Nodes
+    - 1500+ Sensors (temperature, air quality and ambient noise levels)
+    - 100 Edge AI Nodes
+    - 1 Gbps Fibre Backbone
 
-- 230 UMBRELLA Nodes (mounted on lamp posts)
-- 1000+ Wireless Radio Nodes
-- 1500+ Sensors (temperature, air quality and ambient noise levels)
-- 100 Edge AI Nodes
-- 1 Gbps Fibre Backbone
-
-Capabilities
-^^^^^^^^^^^^
+Testbed features and Benefits
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Scheduling and monitoring of experiments running in the testbeds
 - Kubernetes/Docker-based upload and deployment of experiment software
@@ -36,35 +50,41 @@ Capabilities
 Robotics Testbed
 ----------------
 
-Situated in the Bristol Robotics Lab, the robotic testbed consists of a 5x5m arena, 20 robotic nodes, and several obstacles and platforms. Use the testbed to evaluate which communications protocols and swarm AI algorithms work best for a robotic solution. 
+- First testbed supporting both multi-radio customisable protocol & SWARM simulation and arena deployment
+- Situated in the Bristol Robotics Lab.
+- Consists of a 5x5m arena, 20 robotic nodes, and several obstacles and platforms.
 
-Capabilites
-^^^^^^^^^^^
-
-- Simulation models (such as Gazebo) with customisable environments/worlds
-- Ground truth data with millimetre accuracy for tracking robots
-
-Advancing collaborative robotic AI
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Each robot is 25cm in diameter and can lift to 4kg individually but can collaborate to tackle larger and heavier payloads.
-
-- Communication and Management Stack
-  - Bluetooth 5.0
-  - Wi-Fi (802.11ac)
-  - Ultra-wide Band
-  - DDS
-  - Support for custom protocol stacks
-- Actuation
-  - 3 x Omnidirectional wheels
-  - Lifter
-- GPU
-  - RockPi with four onboard cameras
-
-State-of-the-art digital twin
+Testbed features and Benefits
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The digital twin simulator allows running experiments virtually before taking to the robot arena. Access the digital twin from anywhere with an internet connection through the UMBRELLA Platform.
+- Dockerised container experimentation (Easy of deployment and management of experiments)
+- ROS2 and DDS (Secure and real-time pub/sub)
+- Gazebo Digital Playground (Realistic validation and experimentation)
+- Robot nodes (Lifter actuator + Many sensors / radios for flexibility)
+- Ground truth telemetry (High resolution and accuracy for record + comparison/playback)
+- Multi-wireless technology, including private 5G (Bluetooth, UWB, Wi-Fi, private 5G)
+- The digital twin simulator allows running experiments virtually before taking to the robot arena.
+
+
+Use-case key features
+^^^^^^^^^^^^^^^^^^^^^
+
+- Use the testbed to evaluate which communications protocols and swarm AI algorithms work best for a robotic solution. 
+- Simulation models (such as Gazebo) with customisable environments/worlds
+- Evaluation of SWARM for Warehouse applications – fetch/carry using:
+  
+  - Radio communication protocols optimised for collaborative robotics 
+  - Rich set of sensors and actuators, which include cameras
+  
+- Other applications that can be evaluated:
+  
+  - Surveying, environment mapping, remote operation assisted multi-robot systems and functional safety aspects of cooperative robotics
+  - Large SWARM/environment scenarios (through simulation)
+  - Wireless / minimal infrastructure localisation technologies
+  
+- Decentralised industrial IoT Bus support using DDS / ROS2
+- Optitrack™ ground truth data with millimetre accuracy for tracking robots and performance evaluation
+
 
 Who can use UMBRELLA?
 =====================
@@ -94,46 +114,6 @@ The umbrella platform allows to
 
 
 
-Three-Tier Architecture
-=======================
-
-Backend Tier
-------------
-
-Edge Tier
----------
-
-Edge node consists of small board computers (SBC) and an AI node that provides an IoT access point that can house a variety of radios and sensors in stylish, interchangeable modules based on your needs.
-
-- Computing Power
-    - All nodes are powered by a Raspberry Pi 3+.
-    - Edge-capable nodes are powered further by a Jetson Nano
-- Radios
-    - Nordic Semiconductor nRF52840 with Power Amplifier – capable of both BLE and 802.15.4 using Contiki-NG
-    - Texas Instruments CC1310 – 868MHz long-range radio supported by Contiki-NG
-    - HopeRF RFM95W LoRa transceiver
-    - RAKwireless RAK2247 LoRaWAN gateway (on selected nodes)
-    - GPS receiver for time synchronisation
-    - Wi-Fi radio for backbone connectivity
-    - 4G cellular dongle for backup connectivity
-- Enclosures
-    - Equipment is housed in three large and three small diamond-shaped plastic modules. 
-    - For new projects, different hardware can be plugged into the modules using USB 2.0. 
-- Deployment
-    - UMBRELLA nodes can be mounted on posts or walls in many settings, whether roadside on lamp posts, factory walls, or in shopping venues.
-
-Endpoint Tier
--------------
-
-- Sensors
-    - Air Quality (VOC Index, Temperature, Humidity, Air Quality Index)
-    - Multi-gas (RED, OX, NH3)
-    - Particulate (PM2.5, PM10)
-    - NO2
-    - OX (Oxidising gas for ozone and nitrogen dioxide)
-    - Noise (for measuring ambient noise levels)
-- Other
-    - Sky-facing camera (for use in street light monitoring)
 
 Use cases
 =========
@@ -157,8 +137,8 @@ Road traffic is the primary source of air pollution. Air quality is affected by 
 
 The air quality is often measured using sample tubes placed at monitoring locations and collected over a few months. Sample tubes do not allow real-time collection, because of which the observation points are limited for effective policy-making around pollution risk mitigation.
 
-The Approach
-""""""""""""
+Approach
+""""""""
 
 - The UMBRELLA node allows the real-time measurement and collection of data on VOC Index, RED, Ozone, Ammonia, PM 2.5, PM 10, Air Temperature, Air Humidity, Air Quality Index, and NO2.
 - UMBRELLA nodes can be placed roadside on lampposts every few tens of meters on either side of the road to ensure appropriate coverage. 
@@ -179,31 +159,31 @@ Approach
 - Once the machine learning algorithm detects that a street light is not working as intended, an alert is sent to the street care team, meaning they can monitor street lights passively whilst undertaking other tasks.
 - The service allows the street care team to check the street lights' status in real-time without travelling to the street lights themselves.
 
-The Benefits
-""""""""""""
-- Reduction in man hours, vehicle maintenance and fuel will translate into cost reductions for the street care team.
+Benefits
+""""""""
+- Reduction in person-hours, vehicle maintenance and fuel will translate into cost reductions for the street care team.
 - Monitor the real-time status of any connected street light without needing to visit it.
 
 Large Scale Wireless Testbed
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The Challenge
-"""""""""""""
+Challenge
+"""""""""
 
-- The Internet of Things (IoT) enables sensors to collect and share data about their environments via the internet and make them “smart”. It is crucial to design, develop and rigorously test the wireless protocol (e.g. Wifi, 5G, Bluetooth) used for network connectivity.
+- The Internet of Things (IoT) enables sensors to collect and share data about their environments via the internet and make them “smart”. It is crucial to design, develop and rigorously test the wireless protocol (e.g. Wi-Fi, 5G, Bluetooth) used for network connectivity.
 
-The Approach
-""""""""""""
+Approach
+""""""""
 
 - UMBRELLA’s node includes multiple wireless technologies, including short-range, long-range, cellular, non-cellular, licensed and unlicensed technologies.
 - The nodes are placed in indoor and outdoor locations, with the majority located in real-world locations across the South Gloucestershire region.
 - Radios include IEEE 802.15.4, Bluetooth Low Energy, Ultrawideband, LTE/5G, NB-IoT, LoRa, 
 - The UMBRELLA platform includes various tools that allow running network diagnostics, visualising wireless networks, collecting performance metrics and evaluating them against one another.
 
-The Benefits
-""""""""""""
+Benefits
+""""""""
 
-- The presence of multiple radios in one testbed allows users to test their applications and protocols with multiple wireless technologies and evaluate them all on one platform.
+- The presence of multiple radios in one testbed allows users to test their applications and protocols with multiple wireless technologies and evaluate them on one platform.
 
 Robotics Testbed
 ----------------
@@ -211,24 +191,41 @@ Robotics Testbed
 SWARM Robotics
 ^^^^^^^^^^^^^^
 
-The Challenge
-"""""""""""""
+Challenge
+"""""""""
 
 - In warehouse environments, robots move objects of various shapes and sizes without colliding and misjudging the objects. Without swarm robotic technology, the robots use centralised methods to collaborate and coordinate their movements requiring centralised processing and communication (expensive in terms of infrastructure required).
 - The Collaborative warehouse storage solution uses swarm robotic technology, which exploits multiple robots collectively moving pallets containing objects. It improves performance, measured in terms of the time taken to store/retrieve the pallets and the resources, including battery energy. 
-- Existing testbeds (Robotarium and IRIS) support collaborative robotics experimentation and are largely used for general swarm algorithm research and evaluation rather than being use-case specific.
+- Existing testbeds (Robotarium and IRIS) support collaborative robotics experimentation and are primarily used for general swarm algorithm research and evaluation rather than being use-case specific.
 
-The Approach
-""""""""""""
+Approach
+""""""""
 
 - Swarm robots coordinate their activities in an autonomous self-configuring manner requiring no reliance on the infrastructure being deployed. 
-- The Swarm robots use various sensors, including distance, camera, and radios, to obtain information about the environment. Robots process this information, and it forms the basis of their actions. The robots also contain radios to communicate with each other. 
-- Digital twins are used to evaluate and optimising or evolve the algorithms. Algorithms are created and deployed to the digital twin simulator environment and the robots. The algorithms set goals and tasks for the robots to achieve. Performance is measured by how they collectively tackle these challenges.
+- The Swarm robots use various sensors, including distance, camera, and radios, to obtain environmental information. Robots process this information, and it forms the basis of their actions. The robots also contain radios to communicate with each other. 
+- Digital twins are used to evaluate and optimise or evolve the algorithms. Algorithms are created and deployed to the digital twin simulator environment and the robots. The algorithms set goals and tasks for the robots to achieve. Performance is measured by how they collectively tackle these challenges.
 - Objects or pallets to be moved by the robots and obstacles hinder the robot's movements. Up to 20 swarm robots can be involved in each experiment. Ground truth data is collected to validate and evaluate the performance of the robots in fulfilling their tasks.
 
-The Benefits
-""""""""""""
+Benefits
+""""""""
 
 - Algorithms can be optimised and evaluated for performing particular tasks and environments without prior knowledge of the environment or infrastructure.
 - Digital twin environments permit accurate representation and comparison with the real arena environment for validating, evolving, or optimising the algorithms.
 - Zero initial configuration and infrastructure required.
+
+
+Private 5G Use-case for Warehousing and Logistics
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Challenge
+"""""""""
+- 5G provides an unprecedented capability of a unified wireless interface for diverse IIoT applications. 
+- Private 5G networks provide customized service with dedicated coverage, capacity, and intrinsic network control. 
+- Most existing testbeds lack 5G capabilities as an end-to-end IIoT system.
+
+Approach
+""""""""
+
+- The UMBRELLA offers the capability to test, evaluate, and trial private 5G technology and support different use cases, such as versatile warehousing and logistics scenarios, as part of an end-to-end IIoT system. 
+- Private 5G connectivity is provided through a 5G network-in-a-box solution which includes a radio access network (RAN) and a core network and supports commercial off-the-shelf (COTS) devices like handsets and dongles.
+- The private 5G network is based on non-standalone (NSA) mode and can operate in several sub-6 GHz frequency bands, including those opened explicitly for private deployments.

@@ -12,7 +12,7 @@ Here is a small video to provide a brief introduction.
    :width: 500
    :height: 300
 
-TestBeds
+Testbeds
 ========
 
 UMBRELLA consists of two testbeds
@@ -86,8 +86,8 @@ Use-case key features
 - Optitrack™ ground truth data with millimetre accuracy for tracking robots and performance evaluation
 
 
-Who can use UMBRELLA?
-=====================
+UMBRELLA Users
+==============
 
 Hardware Developers
 -------------------

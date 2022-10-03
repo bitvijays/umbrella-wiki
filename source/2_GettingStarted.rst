@@ -1,0 +1,977 @@
+Getting Started
+***************
+
+Here we provide more details about running the experiments on the testbed.
+
+
+User Registration
+=================
+
+Steps
+-----
+
+1. Visit `UMBRELLA Portal <https://portal.umbrellaiot.com/>`_ 
+2. Register -> `Create New Account` -> Enter details (First Name, Last Name, Username, Email, Password) -> Create Account
+3. A email with instructions will be sent to verify your email address.
+
+
+Umbrella Networks
+=================
+
+Steps
+-----
+
+1. Visit `UMBRELLA Portal <https://portal.umbrellaiot.com/>`_ , Login, UMBRELLA HOME > Umbrella Networks
+2. New Project > Enter `Project Name`, `Description`, `Node Network` (default, dummy Node Network) > `Create Project`
+3. The Network section provides the details about the different nodes available.
+4. The Files section allows users to upload container images (running on Raspberry Pi and Jetson Nano) and Binary images (for nrf52 and cc1310).
+5. The container images can be uploaded from a public repo (such as docker registry or container registry) or local file (.tar).
+
+
+Creating Container Images
+-------------------------
+
+Creating Binary Images
+----------------------
+
+Robotic Networks
+================
+
+Steps
+-----
+
+1. Visit `UMBRELLA Portal <https://portal.umbrellaiot.com/>`_ , Login, UMBRELLA HOME > Robotic Networks
+2. New Project > Enter `Project Name`, `Description`, `Arena` (default, dummy Node Network) > `Create Project`
+3. The Files section provides a user to upload container images (for running on Controller and Radio Simulator), configurations (for Configuration and World) and Binary images (for nrf52 and cc1310).
+4. The container images can be uploaded from a public repo (such as docker registry or container registry) or local file (.tar).
+
+- The digital twin setup and steps required for deployment are illustrated below. The ARM and X86_64 VM configurations supporting the digital twins run experiment containers in the same manner as the physical arena. Limiting the number of robot instances permitted (e.g. 120) to run in the simulator VM is possible. The main differences between the simulator and real arena deployments are that in the arena, the maximum number of robots is 20, and in the simulator, an additional radio simulation container and configuration files are permitted per experiment. 
+
+   .. figure:: _static/Images/2_GettingStarted/Digital_Twin_Simulator.png
+      :width: 600
+      :align: center      
+      :alt: Digital twin simulator setup within Cloud EKS cluster
+
+      Digital twin simulator setup within Cloud EKS cluster
+
+   .. figure:: _static/Images/2_GettingStarted/Simulation_Experiment_Flow_Cloud_VM.png
+      :width: 400
+      :align: center      
+      :alt: Flow for setting up simulation experiment in cloud VM
+
+      Flow for setting up simulation experiment in cloud VM
+
+- The experiment software will be deployed and interact with the simulator container in the same manner as the robot nodes (i.e. using ROSv2 and DDS). The portal allows uploading and setting the environment model, selecting the number of robot nodes from those available, and viewing the arena video and ground truth.
+
+   .. figure:: _static/Images/2_GettingStarted/Robot_Ground_Truth_Map_Simulator_View.png
+      :width: 600
+      :align: center      
+      :alt: Robot ground truth map view (left) and simulator view (right)
+
+      Robot ground truth map view (left) and simulator view (right)
+  
+- The ROS2 bags and ground truth data are stored locally, which can be visualised or downloaded via the portal. It happens the same way in the real arena robot, but the main difference is obviously in a cloud VM environment.
+- The Gazebo web client interface is used only for visualising the GUI output of the simulator to the users within WebGL-compliant browsers. The association of experiment containers with simulator instances uses a separate Kubernetes cluster for each simulation instance.
+
+Validate experiments before using the arena
+
+- The user can use the simulation environment first to validate an experiment. In validation mode, the world files cannot be overridden. The experiment must complete successfully, without any robot or wall collisions, to be permitted to run subsequently in the arena environment. Once the experiment has been validated in the simulation environment, the user can run the experiment in the arena.
+
+Experiment process
+
+
+- In both the simulation and arena environments, the experiment containers are deployed when the experiment starts. A first-in, first-out queue is used to schedule the start times.
+- After the experiment starts, the containers initialise and subscribe to the ROS2 topics.
+- In the simulator environment, the containers also need to spawn the robot model instance in the Gazebo simulator. Containers are passed the environment variable ROBOTSIM, and its value is true when running in the simulator.
+- The start position and orientation of the robot are passed as an environment variable ROBOTPOSE which provides the x, and y coordinates from the centre reference and the orientation in radians. For example; 1.0,-1.0,0.5. In addition, the ROBOTID environment variable contains the friendly name of the robot instance. An additional environment variable called controllerOptions is passed to the experiment containers containing the controller option to run for the experiment.
+- The spawning of the robot models is performed using the following bootstrap code in the experiment container
+
+  .. code:: none
+
+        controller_cmd = Node(
+        package     = 'dots_example_controller',
+        executable  = controller_option,
+        namespace   = robot_name,
+        output      = 'screen',
+        parameters  = [ {'use_sim_time' : use_sim_time}]
+        )
+
+- For both simulation and robot environments, the log data can be recorded in ROS2 bags using the following commands:
+
+  .. code:: 
+
+      ld.add_entity(ExecuteProcess(
+          cmd=['ros2', 'bag', 'record',
+              '--compression-mode', 'file',
+              '--compression-format', 'zstd',
+              '-o', '/storage/%s' % bag_name,
+              '/%s/odom' % bag_name.replace("-0","")],
+          output='screen'
+      ))
+- When the user is running an experiment, ROS2 bags can be recorded in the experiment container ``/storage`` folder so that the user can download them after the experiment has been completed.
+- Message sequence diagram for digital twin simulation is shown below:
+
+   .. figure:: _static/Images/2_GettingStarted/Message_sequence_diagram_digital_twin_simulation.png
+      :width: 600
+      :align: center      
+      :alt: Robot ground truth map view (left) and simulator view (right)
+- The contents can include the ground truth odometry data that the user can use to evaluate the experiment. Video, ground truth or simulator visualisations are also provided in the portal during the experiment. Note that the experiment can be cancelled in the event of any unintended behaviour.      
+
+Creating Images
+---------------
+
+- The user must build container images to create and run experiments in the physical robot arena and simulation environments. 
+- We describe how to build the experiment Docker container images, with instructions for the robot simulator testbed, using an example Docker radio simulator container - ``timfa/radiosimulator:latest``. Alternatively, the prebuilt ``timfa/controller:base`` controller image can be used if only the main controller python files are being customised, as they can be loaded at runtime.
+- All container images are security scanned for vulnerabilities and must not be higher than a medium level to be permitted to run on the testbed.
+
+Controller Image
+^^^^^^^^^^^^^^^^
+
+The below example shows an experiment container with images that contain the robot controller code and utilise the ROS2 galactic release as the basis for accessing sensors, cameras, motors and actuators.
+
+The example Dockerfile below is used to build the base experiment controller. The following Docker command builds and pushes the file to the Docker hub (using moby/buildkit:buildx-stable-1) : ``docker buildx build --platform linux/arm64 -t <container image>  --push .``
+
+To build the file directly on an ARM64 node, without cross-compiling it, use: ``docker build -t <container image> .`` The image can be imported directly from the Docker hub into the robot simulator testbed.
+
+The contents of the example ``timfa/controller:base`` Dockerfile is as follows:
+
+.. code:: docker
+
+    #------------------------------------------------------------------
+    # Use the official ros-galactic image to build the package
+
+
+    FROM arm64v8/ros:galactic AS appBuilder
+
+
+    WORKDIR /home/dots/dots_system
+    ADD src src
+
+    RUN apt -y update && apt -y upgrade
+    RUN apt install ros-galactic-xacro 
+    RUN git clone https://github.com/splintered-reality/py_trees_ros_interfaces.git -b release/2.0.x
+    RUN git clone https://github.com/splintered-reality/py_trees_ros.git -b release/2.1.x
+    RUN git clone https://github.com/ros-perception/image_common.git -b galactic
+    RUN git clone https://github.com/ros2/rcpputils.git -b galactic
+    RUN apt -y install unzip wget ros-galactic-cv-bridge ros-galactic-vision-opencv ros-galactic-gazebo-ros-pkgs
+    RUN git clone https://github.com/Tim-222/aruco.git
+    WORKDIR /home/dots/dots_system/aruco
+    RUN cmake CMakeLists.txt
+    RUN make && make install
+    WORKDIR /home/dots/dots_system 
+
+    RUN bash -c 'source /opt/ros/galactic/setup.bash \
+    &&   aruco_DIR=/home/dots/dots_system/aruco colcon build --merge-install'
+
+
+    #------------------------------------------------------------------
+    # Start from a minimal image and just install what is necessary for
+    # ros to run
+    FROM ubuntu:focal
+    ENV DEBIAN_FRONTEND=noninteractive
+    RUN apt-get update && apt -y full-upgrade && apt-get -y -t focal-security  install   \
+        libpython3.8 \
+        libspdlog-dev \
+        libtinyxml-dev \
+        libtinyxml2-dev \
+        python3-lark \
+        python3-yaml \
+        python3-numpy \
+        python3-setuptools \
+        python3-netifaces \
+        python3-pip 
+    RUN pip install py_trees==2.1.5
+    RUN pip install packaging
+    # Ros files
+    COPY --from=appBuilder /opt/ros/galactic/ /opt/ros/galactic
+    # Opencv libraries
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libopencv* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libtbb* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libjpeg* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libwebp* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libpng* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libgdcmMSFF* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libtiff* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libIlmImf* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/libgdal* /usr/lib/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libgdcm* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libopenjp2* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libCharLS* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libjson-c* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libjbig* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libHalf* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libIex* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libIlmThread* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/libarmadillo* /usr/lib/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libpoppler* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libqhull* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libfreexl* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libgeos* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libepsilon* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libodbc* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libkml* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libxerces* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libnetcdf* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libhdf5* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/libmfhdfalt* /usr/lib/
+    COPY --from=appBuilder /usr/lib/libdfalt* /usr/lib/
+    COPY --from=appBuilder /usr/lib/libogdi* /usr/lib/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libgif* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libgeotiff* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libcfitsio* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libpq* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libproj* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libdap* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libspatialite* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libcurl* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libfy* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libxml* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libmysql* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libarpack* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libsuper* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libfreetype* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libfontconfig* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/liblcms* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libnss* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libsmime* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libnspr* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libltdl* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libminizip* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/liburiparser* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libicu* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libsz* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libgss* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libldap* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libnghttp* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/librtmp* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libssh* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libpsl* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/liblber* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libbrot* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libpl* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libaec* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libkrb* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libk5crypto* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libsasl* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libkeyutils* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libheim* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libasn* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libhcrypto* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libroken* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libwind* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/lib/aarch64-linux-gnu/libhx* /usr/lib/aarch64-linux-gnu/
+    COPY --from=appBuilder /usr/local/lib/libaruco.so.3.1 /usr/lib/aarch64-linux-gnu/
+
+    RUN rm -rf /opt/ros/galactic/include
+    RUN rm -rf /usr/include
+
+
+    # Clear up
+    RUN apt-get -y install strace
+    RUN apt-get -y install wget
+    RUN apt-get clean autoclean
+    RUN apt-get autoremove --yes
+    RUN rm -rf /var/lib/apt/lists/*
+
+    # Mount point for storage volume
+    RUN mkdir /storage
+
+    # Make user
+    ARG UID
+    ARG GID
+    ARG HOSTOSTYPE
+    ENV SHELL=/bin/bash
+    RUN mkdir /home/dots
+    RUN mkdir /home/dots/dots_system
+    WORKDIR /home/dots/dots_system
+    ADD docker/scripts/start_controller .
+
+    COPY --from=appBuilder  /home/dots/dots_system/install /home/dots/dots_system/install
+    RUN chmod +x install/share/dots_sim/launch/rsp_helper.sh  
+
+When building a final controller image, the entry point command needs to be added, such as:
+
+.. code:: docker
+
+  FROM timfa/controller:base
+  ADD loadmodels.sh .
+  RUN /bin/bash -c "source ./install/setup.bash"
+  CMD ./loadmodels.sh  
+
+In this case, the ``loadmodules.sh``is loading the controller script from the radio simulator container (this could also load the local controller or from an alternative remote location). Override the loadmodules.sh to customise how the initial controller scripts are loaded
+
+.. code:: console
+
+  #Get the controller module
+  wget http://radiosimulator:80/${controllerOptions}.txt
+  cp ${controllerOptions}.txt install/lib/python3.8/site-packages/dots_example_controller/${controllerOptions}.py
+  #Run the controller
+  rm -r /storage/$ROBOTID 
+  rm /storage/${ROBOTID%-*}.log 
+  bash /home/dots/dots_system/start_controller robot_name:=${ROBOTID%-*} robot_pose:=$ROBOTPOSE use_sim_time:=$ROBOTSIM controllerOptions:=$controllerOptions > /storage/${ROBOTID%-*}.log 2>&1
+
+In this example:
+
+- The experiment controller files are placed in the subfolder install.
+- The launch script (start_controller) is in the docker/scripts folder in this case.
+- ``ROBOTID`` contains the friendly name for the robot (provided in the portal).
+- ``ROBOTPOSE`` contains the start position and orientation (x,y, theta) provided in the configuration file.
+- ``ROBOTSIM`` is either true or false to indicate whether the experiment is running in the simulation environment.
+- ``controllerOptions`` is set to the name of the controller file (pulled from the radio simulator container in this case)
+
+Example container
+"""""""""""""""""
+
+The experiment container contains the Robot controller. The following launch file executes the commands:
+
+.. code:: console
+
+  source install/setup.bash
+  ros2 launch dots_example_controller controller.launch.py "$@"
+
+Where the ``controller.launch.py`` is the Python code for the controller initialisation in this instance.
+
+.. note:  if the logs need to be recorded for post-experiment analysis, they are placed in the docker container's ``/storage`` folder. The example below dumped the ``odom`` ROS2 topics into the ``/storage`` folder. The ``/<robot name>/odom`` topic contains the robot's ground truth position and orientation data. In the simulation environment, the robot name is the friendly ``ROBOTID``, as provided in the experiment configuration on the portal. However, in the arena deployment, the physical robot hostname, with a hyphen replaced by an underscore, is used for the name, which is ``umbrella_<robot id hash>``.
+
+**controller.launch.py**
+
+.. code:: python
+
+  import os
+  from ament_index_python.packages import get_package_share_directory
+
+  from launch import LaunchDescription
+  from launch_ros.actions import Node
+  from launch.actions import ExecuteProcess, IncludeLaunchDescription
+  from launch.actions import DeclareLaunchArgument
+  from launch.substitutions import LaunchConfiguration
+  from launch.launch_description_sources import PythonLaunchDescriptionSource, FrontendLaunchDescriptionSource
+
+
+  def generate_launch_description():
+
+      pkg_share       = get_package_share_directory('dots_example_controller')
+
+      controller_option = LaunchConfiguration('controllerOptions')
+      use_sim_time    = LaunchConfiguration('use_sim_time')
+      robot_name      = LaunchConfiguration('robot_name')    
+
+      declare_use_sim_time    = DeclareLaunchArgument('use_sim_time', default_value='true')
+      declare_robot_name      = DeclareLaunchArgument('robot_name', default_value='robot_deadbeef')
+
+
+      setup_cmd = IncludeLaunchDescription(
+          PythonLaunchDescriptionSource(os.path.join(pkg_share, 'launch', 'basic_cam.launch.py')),
+      )
+
+
+      #---------------------------------------------------------------------------
+      # CONTROLLER OPTION HAS YOUR CONTOLLER 
+      #---------------------------------------------------------------------------
+      controller_cmd = Node(
+          package     = 'dots_example_controller',
+          executable  = controller_option,
+          namespace   = robot_name,
+          output      = 'screen',
+          parameters  = [ {'use_sim_time' : use_sim_time}]
+      )
+      #---------------------------------------------------------------------------
+
+
+
+      # Build the launch description
+      ld = LaunchDescription()
+
+      bag_name = os.environ.get('ROBOTID')
+
+      ld.add_entity(ExecuteProcess(
+          cmd=['ros2', 'bag', 'record',
+              '--compression-mode', 'file',
+              '--compression-format', 'zstd',
+              '-o', '/storage/%s' % bag_name,
+              '/%s/odom' % bag_name.replace("-0","")],
+          output='screen'
+      ))
+
+      ld.add_action(declare_use_sim_time)
+      ld.add_action(declare_robot_name)
+      ld.add_action(setup_cmd)
+      ld.add_action(controller_cmd)
+      
+      return ld  
+
+Radio Simulator Image
+^^^^^^^^^^^^^^^^^^^^^
+
+- Users can define their radio simulators to run on the testbed platform. It uses the virtual serial port redirection in order to emulate the radios. These are exposed in the controller containers as serial ports, which can be used with ROS2 over `serial code examples <https://github.com/osrf/ros2_serial_example>`_ .
+- The COBS encapsulation can be used to delimit the messages intercepted and redirected to the radio simulator container. The radio simulator containers expose HTTP port 80 as a REST API to emulate the radio performance. The REST API definition for the radio serial port redirected messages ``/msg`` is called each time a message is redirected from a specific serial port on each robot. 
+- The response contains the recipients of the message and the corresponding performance:
+
+  .. code:: yaml
+
+     "/msg": {
+      "post": {
+       "description": “Redirected messages to the simulator",
+       "parameters": [
+        {
+         "name": "experimentid",
+         "in": "query",
+         "required": false,
+         "style": "form",
+         "explode": true,
+         "schema": {
+          "type": "string"
+         }
+        },
+        {
+         "name": "robotid",
+         "in": "query",
+         "required": false,
+         "style": "form",
+         "explode": true,
+         "schema": {
+          "type": "string"
+         }
+        },
+        {
+         "name": "radioid",
+         "in": "query",
+         "required": false,
+         "style": "form",
+         "explode": true,
+         "schema": {
+          "type": "string"
+         }
+        }
+       ],    
+       "requestBody": {
+        "content": {
+         "application/octet-stream": {
+          "schema": {
+           "type": "object"
+          }
+         }
+        },
+        "required": false
+       },
+       "responses": {
+        "200": {
+         "description": "Returns the JSON object with radio performance"
+        }
+       },
+       "security": [
+        {
+         "default": []
+        }
+       ]
+      }
+
+- The JSON result object specifies the latency (in ms) and the success rate for each destination radio, corresponding to the robots. An example of the JSON return data is:
+
+  .. code:: json
+
+    {
+      "robot": [{
+          "id": "r01",
+          "radio": [{
+            "id": "NRF52840 ",
+            "latency": 10.1,
+            "successrate": 0.9993
+          }]
+        },
+        {
+          "id": "r02",
+          "radio": [{
+            "id": "NRF52840 ",
+            "latency": 10.1,
+            "successrate": 0.9993
+          }]
+        },
+        {
+          "id": "r03",
+          "radio": [{
+            "id": "NRF52840 ",
+            "latency": 10.1,
+            "successrate": 0.9993
+          }]
+        },
+        {
+          "id": "r04",
+          "radio": [{
+            "id": "NRF52840 ",
+            "latency": 10.1,
+            "successrate": 0.9993
+          }]
+        }
+      ]
+    }
+
+- In addition, the ``/groundtruth`` API permits the periodic updating of the ground truth data with the radio simulator. The update rate is specified in the experiment configuration file. The radio simulator /groundtruth API is then called at this rate. Note that the update rate is in real time rather than simulator time. Simulation time is encapsulated in the sec and nano sec parameters in the time stamp object of the ground truth JSON.
+
+  .. code:: json
+
+   "/groundtruth": {
+      "post": {
+       "description": "Update the ground truth robot position and orientation data",
+       "parameters": [
+        {
+         "name": "experimentid",
+         "in": "query",
+         "required": false,
+         "style": "form",
+         "explode": true,
+         "schema": {
+          "type": "string"
+         }
+        }
+       ],
+       "requestBody": {
+        "content": {
+         "application/json": {
+          "schema": {
+           "type": "object"
+          }
+         }
+        },
+        "required": false
+       },
+       "responses": {
+        "200": {
+         "description": "ok"
+        }
+       },
+       "security": [
+        {
+         "default": []
+        }
+       ]
+      }
+
+- The ground truth contains an array of groundtruth data corresponding to each robot or other object. The data contains the odometry elements for each object. An example JSON groundtruth object is:
+
+  .. code:: json 
+
+   {
+     "groundtruth": [
+       {
+         "object_id": "r01",
+         "header": {
+      "frame_id": "odom",
+             "stamp": {
+             "sec": 1234,
+             "nanosec": 1234
+         }
+          }
+          "child_frame_id": "base_plate",
+          "pose": {
+            "pose": {
+             "position": {
+               "x": 1,
+               "y": 2,
+               "z": 3
+          },
+          "orientation": {
+            "x": 1,
+            "y": 2,
+            "z": 3,
+            “w": 4`     
+          }
+        }
+      ……
+    ]
+   }
+
+Example radio simulator in C#
+"""""""""""""""""""""""""""""
+
+- The following example is a radio simulator controller written in C#. This can be encapsulated in a container using the aspnet:3.1-focal base to permit deployment in Linux containers. This is supported in Visual Studio 2019 version 16.11 and above. The radio simulator listens on HTTP port 80 and serves the REST APIs for controlling the serial port message redirects. It also optionally serves the Controller python scripts if the controller content is placed in the project's content directory. In this way, it is only necessary to update the single container when testing new controllers and radio algorithms.
+
+ .. code:: c#
+
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Logging;
+    using RadioSimulator.Models;
+
+
+    namespace RadioSimulator.Controllers
+    {
+        //Position and orientation coordinates
+        //Position in cartersian and orientation in quaternion
+        public class Position
+        {
+            // coordinates in metres from origin (centre)
+            public float x { get; set; }
+            public float y { get; set; }
+            public float z { get; set; }
+           
+        }
+         public class Orientation
+        {
+            // Orientation in Quaternion radians
+            public float x { get; set; }
+            public float y { get; set; }
+            public float z { get; set; }
+            public float w { get; set; }
+        }
+        public class Pose
+        {
+            // Pose consisting of position and orientation
+            public Position position { get; set; }
+            public Orientation orientation { get; set; }
+        }
+        public class PoseHolder
+        {
+            public Pose pose { get; set; }
+        }
+
+        public class Stamp
+        {
+            // Timestamp 
+            public int sec { get; set; }
+            public int nanosec { get; set; }
+         }
+
+        public class Header
+        {
+            public string frame_id { get; set; }
+            public Stamp stamp { get; set; }      
+         }
+
+
+        //Ground Truth Data Structure
+        public class GTData
+        {
+            public string object_id { get; set; }
+            public Header header { get; set; }
+            public string child_frame_id { get; set; }
+            public PoseHolder pose { get; set; }
+        }
+        public class GTRequest
+        {
+            public GTData[] groundtruth { get; set; }
+        }
+        public class Radio
+        {
+            public string id { get; set; }
+            public double latency { get; set; }
+            public double successrate { get; set; }
+        }
+        public class Robot
+        {
+            public string id { get; set; }
+            public Radio[] radio { get; set; }
+        }
+        public class simResponse
+        {
+            public Robot[] robot { get; set; }
+        }
+        public class Error
+        {
+            public string message { get; set; }
+        }
+
+        //Main controller class
+        public class HomeController : Controller
+        {
+            private readonly ILogger<HomeController> _logger;
+            private static GTRequest gtCache = null;
+
+         
+            public HomeController(ILogger<HomeController> logger)
+            {
+                _logger = logger;
+            }
+
+            public IActionResult Index()
+            {
+                return View();
+            }
+
+            public IActionResult Privacy()
+            {
+                return View();
+            }
+
+            [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+            public IActionResult Error()
+            {
+                return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            }
+
+           
+            [HttpPost("msg/")]
+            public JsonResult PostMsg([FromQuery]string experimentid, [FromQuery]string robotid, [FromQuery]string radioid)
+            {
+
+                if (gtCache == null)
+                {
+                    Error error = new Error();
+                    error.message = "No ground truth data available";
+                    return Json(error);
+                }
+
+                simResponse simResponse = new simResponse();
+                simResponse.robot = new Robot[gtCache.groundtruth.Length];
+
+                for (int robot = 0; robot < gtCache.groundtruth.Length; robot++)
+                {
+                   
+                    simResponse.robot[robot] = new Robot();
+                    simResponse.robot[robot].id = gtCache.groundtruth[robot].object_id;
+                    simResponse.robot[robot].radio = new Radio[1];
+
+                    simResponse.robot[robot].radio[0] = new Radio();
+                    simResponse.robot[robot].radio[0].id = radioid;
+                    simResponse.robot[robot].radio[0].latency = 0;
+                    simResponse.robot[robot].radio[0].successrate = 1;
+
+                }
+             
+           
+                return Json(simResponse);
+            }
+
+            [HttpPost("groundtruth/")]
+            public ActionResult<string> PostGT([FromBody] GTRequest gtData, [FromQuery]string experimentid)
+            {
+                          
+                gtCache = gtData;
+
+                return ("ok");
+            }
+        }
+    }
+
+Example Docker file to build the radio simulator experiment container image
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+The example image can be obtained from ``timfa/radiosimulator:latest`` Note that the ubuntu base images need to be used to avoid image vulnerability issues.
+
+.. code:: docker
+
+    #------------------------------------------------------------------
+    # Radio Simulator Controller example - experiment container
+    FROM mcr.microsoft.com/dotnet/aspnet:3.1-focal AS base
+    RUN apt -y update && apt-get -y upgrade
+    WORKDIR /app
+    EXPOSE 80
+
+    FROM mcr.microsoft.com/dotnet/core/sdk:3.1-focal AS build
+    WORKDIR /src
+    COPY ["RadioSimulator/RadioSimulator.csproj", "RadioSimulator/"]
+    RUN dotnet restore "RadioSimulator/RadioSimulator.csproj"
+    COPY . .
+    WORKDIR "/src/RadioSimulator"
+    RUN dotnet build "RadioSimulator.csproj" -c Release -o /app/build
+
+    FROM build AS publish
+    RUN dotnet publish "RadioSimulator.csproj" -c Release -o /app/publish
+
+    FROM base AS final
+    WORKDIR /app
+    COPY --from=publish /app/publish .
+    ENTRYPOINT ["dotnet", "RadioSimulator.dll"]
+
+
+Creating Configuration
+----------------------
+
+Configuration Files
+^^^^^^^^^^^^^^^^^^^
+
+Configuration files are used to run the experiment. Below is an example of a configuration file to run experiments in the physical robotics arena and in simulations. The configuration options are passed to the controller and gazebo containers at the startup of the simulation. The robotPreferences section describes the start position and orientation of the robot instances and is passed in ROBOTPOSE and ROBOTID variables. The controllerOptions environment variable is passed to all the controller containers. This permits loading different controller configurations. The gazeboOptions variable is passed to the Gazebo container and consists of the delivery order and manual start flags separated by the dash (-). Finally, the UPDATERATE variable is used for simulation time step control, and the delimiter is the serial port message delimiter required for passing messages to the radio simulator for emulation of the radio devices where the radio devices in use are mapped to serial ports (/dev/ttyACMX) using the radios list, with X denoted by the radio index.
+
+.. code:: yaml
+
+  robotPreference:
+    - robotId: rb00
+      x: -1.5
+      y: -1
+      theta: 0
+    - robotId: rb01
+      x: -1
+      y: -1
+      theta: 0
+    - robotId: rb02
+      x: -0.5
+      y: -1
+      theta: 0
+    - robotId: rb03
+      x: 0
+      y: -1
+      theta: 0
+    - robotId: rb04
+      x: 0.5
+      y: -1
+      theta: 0
+    - robotId: rb05
+      x: 1
+      y: -1
+      theta: 0
+    - robotId: rb06
+      x: 1.5
+      y: -1
+      theta: 0
+    - robotId: rb05
+      x: -1.5
+      y: -1.5
+      theta: 0
+    - robotId: rb06
+      x: -1
+      y: -1.5
+      theta: 0
+    - robotId: rb07
+      x: -0.5
+      y: -1.5
+      theta: 0
+    - robotId: rb08
+      x: 0
+      y: -1.5
+      theta: 0
+    - robotId: rb09
+      x: 0.5
+      y: -1.5
+      theta: 0
+    - robotId: rb010
+      x: 1
+      y: -1.5
+      theta: 0
+    - robotId: rb011
+      x: 1.5
+      y: -1.5
+      theta: 0
+  radios:
+    - 0: NRF52840
+  updaterate: 500
+  delimiter: 00
+  controllerOptions: carry
+  gazeboOptions: 0,1,2,3,4,5-false  
+
+World Files
+^^^^^^^^^^^
+
+World files are used in simulation experiments to define the configuration of the environment of the test. Using `SDF <http://sdformat.org/spec>`_ , create world files with the configuration you want for your experiment.
+
+.. code:: xml
+
+  <sdf version='1.6'>
+   <world name='default'>
+     <physics name='default_physics' default='0' type='ode'>
+       <max_step_size>0.002</max_step_size>
+       <real_time_factor>1</real_time_factor>
+       <real_time_update_rate>500</real_time_update_rate>
+       <ode> <solver> <type>quick</type> </solver> </ode>
+     </physics>
+     <scene>
+       <ambient>0.4 0.4 0.4 1</ambient>
+       <background>0.7 0.7 0.7 1</background>
+       <shadows>0</shadows>
+     </scene>
+     <gui>
+       <camera name="user_camera">
+         <pose>0.0 -5.0 5 0 0.8 1.5709</pose>
+       </camera>
+     </gui>    
+     <include>
+       <uri>model://ground_plane</uri>
+       <pose>0 0 0 0 0 0</pose>
+     </include>
+     <include>
+       <uri>model://sun</uri>
+       <pose>0 0 0 0 0 0</pose>
+     </include>
+     <include>
+       <uri>model://arena</uri>
+       <pose>0 0 0 0 0 1.5709</pose>
+     </include>
+     <include><uri>model://carrier100</uri><name>carrier100</name><pose>-1.526888 1.256318 0 0 0 -1.265081</pose></include>
+     <include><uri>model://carrier101</uri><name>carrier101</name><pose>-2.085606 1.805956 0 0 0 0.079193</pose></include>
+     <include><uri>model://carrier102</uri><name>carrier102</name><pose>-1.930506 -0.534726 0 0 0 -1.673163</pose></include>
+     <include><uri>model://carrier103</uri><name>carrier103</name><pose>-1.368433 0.781766 0 0 0 -1.052204</pose></include>
+     <include><uri>model://carrier104</uri><name>carrier104</name><pose>-1.970239 0.782110 0 0 0 -2.404628</pose></include>
+     <include><uri>model://carrier105</uri><name>carrier105</name><pose>-1.350856 -0.623322 0 0 0 1.701958</pose></include>
+     <include><uri>model://carrier106</uri><name>carrier106</name><pose>-2.114056 1.274835 0 0 0 -2.142133</pose></include>
+     <include><uri>model://carrier107</uri><name>carrier107</name><pose>-1.733601 0.222654 0 0 0 -2.112031</pose></include>
+     <include><uri>model://carrier108</uri><name>carrier108</name><pose>-1.515878 2.041561 0 0 0 -1.939340</pose></include>
+     <include><uri>model://carrier109</uri><name>carrier109</name><pose>-1.206330 -0.072660 0 0 0 3.082572</pose></include>
+     <include>
+       <uri>model://block_wall</uri>
+       <name>bw</name>
+       <pose>1.35 -1.35 0 0 0 1.5709</pose>
+     </include>
+     <model name="box">
+       <static>true</static>
+       <link name="link">
+         <pose>0 1 0 0 0 0</pose>
+         <inertial>
+           <mass>1.0</mass>
+           <inertia><ixx>0.01</ixx><ixy>0.0</ixy><ixz>0.0</ixz>
+             <iyy>0.01</iyy><iyz>0.0</iyz><izz>0.01</izz> 
+           </inertia>
+         </inertial>
+         <collision name="collision">
+           <geometry>
+             <box>
+               <size>1 1 1</size>
+             </box>
+           </geometry>
+         </collision>
+         <visual name="visual">
+           <geometry>
+             <box>
+               <size>1 1 1</size>
+             </box>
+           </geometry>
+           <material>
+             <script>
+               <name>Gazebo/GreenTransparent</name>
+               <uri>file://media/materials/scripts/gazebo.material</uri>
+             </script>
+           </material>
+         </visual>
+       </link>
+     </model>
+   </world>
+  </sdf>  
+
+Creating Binaries
+-----------------
+
+
+Lora Networks
+=============
+
+Street Lights
+=============
+
+Air Quality Dashboard
+=====================
+
+Steps
+-----
+
+- Visit `UMBRELLA Portal <https://portal.umbrellaiot.com/>`_ , `Login`, `UMBRELLA HOME` → `Air Quality Dashboard`
+- By default, `The Ambient Conditions` dashboard will be opened.
+- From the top right side menu option, the dashboard can be refreshed, or the time range can be changed.
+- The user can select the nodes on the top left side.
+- To download the data, the `Export Table` panel can be used; perform `Inspect → Data → Download CSV` to download the data in the `CSV` file
+- Below are the dashboards available
+
+  - Ambient Conditions
+  - Accelerometer
+  - VOC
+  - CO, NO2, NH3
+  - Noise Level
+  - Particulates (Nova)
+  - Particulates (Plantower)
+  - Alphasense OX
+  - Alphasense NO2
+
+  .. image:: _static/Images/2_GettingStarted/AirQuality.gif
+     :alt: Air Quality
+     :align: center

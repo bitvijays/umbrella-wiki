@@ -3,6 +3,10 @@ UMBRELLA Documentation
 
 Welcome to UMBRELLA (Urban Multi Wireless Broadband and IoT Testing for Local Authority and Industrial Applications)
 
-:doc:`Introduction </0_Introduction>`
+.. toctree::
+   :maxdepth: 2
 
-:doc:`Architecture </1_Architecture>`
+
+   0_Introduction
+   1_Architecture
+   2_GettingStarted

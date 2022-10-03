@@ -18,21 +18,83 @@ Steps
 Umbrella Networks
 =================
 
+The wireless testbed refers to the toolchain that allows users to deploy custom firmware to the `CC1310 (868MHz) <https://www.ti.com/product/CC1310>`_ and `nRF52840 (2.4GHz) <https://www.nordicsemi.com/Products/nRF52840>`_ programmable radios incorporated into the hardware of the edge nodes, deployed along the A4174 in Bristol.
+
+Below is the process of creating and uploading radio firmware to the testbed, along with creating an image to be deployed to the edges-node to gather, broadcast and optionally process data. Wireless experiments can include one or all of the edge nodes available on the network and are scheduled at a time and duration specified by the user. 
+
 Steps
 -----
+
+This page summarises the actions to take to create an experiment, run and view the results using the UMBRELLA portal.
+
+This page covers using the UMBRELLA portal to deploy both things to the edge nodes. Users can follow through this process with existing example firmware and experiment images. For information on creating radio firmware or building experiment images, please consult the relevant pages, where they are addressed in detail.
+
+This section describes the process of deploying a pre-built experiment image and radio firmware to the testbed to gain familiarity with the user interface.
+
+
 
 1. Visit `UMBRELLA Portal <https://portal.umbrellaiot.com/>`_ , Login, UMBRELLA HOME > Umbrella Networks
 2. New Project > Enter `Project Name`, `Description`, `Node Network` (default, dummy Node Network) > `Create Project`
 3. The Network section provides the details about the different nodes available.
 4. The Files section allows users to upload container images (running on Raspberry Pi and Jetson Nano) and Binary images (for nrf52 and cc1310).
-5. The container images can be uploaded from a public repo (such as docker registry or container registry) or local file (.tar).
+5. Users can upload the container images from a public repo (such as docker registry or container registry) or local file (.tar).
 
+
+.. video:: _static/Video/Networks_Experiment.mp4
+   :width: 500
+   :height: 300
 
 Creating Container Images
 -------------------------
 
+
+
 Creating Binary Images
 ----------------------
+
+
+Toolchain Setup
+^^^^^^^^^^^^^^^
+
+- The toolchain setup required to build radio firmware is described in the `Contiki-NG Wiki <https://github.com/contiki-ng/contiki-ng/wiki#setting-up-contiki-ng>`_, select the toolchain appropriate to the operating system (the development team at Toshiba use a native Linux installation).
+
+Cloning and Patching Contiki-NG
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Radio firmware for the UMBRELLA board can be created by cloning  `Contiki-NG <https://github.com/contiki-ng/>`_ and applying a patch on a specific commit. It is recommended that this is used as a starting point for newer users as Contiki-NG provides a well-documented software stack for both the `CC1310 <https://www.ti.com/product/CC1310>`_ and `nRF52840 <https://www.nordicsemi.com/Products/nRF52840>`_  SoCs, available on the UMBRELLA board.
+- The patch is available to download :download:`0001-umbrella-hardware-support.zip <_static/ZIPs/0001-umbrella-hardware-support.zip>`
+
+Clone the repository
+
+.. code:: console
+
+  git clone https://github.com/contiki-ng/contiki-ng.git
+
+Initialize the sub-modules
+
+.. code:: console
+
+  git submodule update --init
+
+Check out the correct commit
+
+.. code:: console
+
+  git checkout 705541797d5f3950a4af58c7e73938248d015cdf
+
+Apply patch
+
+.. code:: console
+
+  git am < [name of umbrella patch file]
+
+Building firmware
+^^^^^^^^^^^^^^^^^
+
+Creating firmware for SoCs themselves can be performed more or less following the process described in the `Contiki-NG WiKi <https://github.com/contiki-ng/contiki-ng/wiki>`_ .
+
+
+
 
 Robotic Networks
 ================
@@ -43,7 +105,7 @@ Steps
 1. Visit `UMBRELLA Portal <https://portal.umbrellaiot.com/>`_ , Login, UMBRELLA HOME > Robotic Networks
 2. New Project > Enter `Project Name`, `Description`, `Arena` (default, dummy Node Network) > `Create Project`
 3. The Files section provides a user to upload container images (for running on Controller and Radio Simulator), configurations (for Configuration and World) and Binary images (for nrf52 and cc1310).
-4. The container images can be uploaded from a public repo (such as docker registry or container registry) or local file (.tar).
+4. Users can upload the container images from a public repo (such as docker registry or container registry) or local file (.tar).
 
 - The digital twin setup and steps required for deployment are illustrated below. The ARM and X86_64 VM configurations supporting the digital twins run experiment containers in the same manner as the physical arena. Limiting the number of robot instances permitted (e.g. 120) to run in the simulator VM is possible. The main differences between the simulator and real arena deployments are that in the arena, the maximum number of robots is 20, and in the simulator, an additional radio simulation container and configuration files are permitted per experiment. 
 
@@ -66,16 +128,16 @@ Steps
    .. figure:: _static/Images/2_GettingStarted/Robot_Ground_Truth_Map_Simulator_View.png
       :width: 600
       :align: center      
-      :alt: Robot ground truth map view (left) and simulator view (right)
+      :alt: Ground truth map view (left) and simulator view (right)
 
-      Robot ground truth map view (left) and simulator view (right)
+      Ground truth map view (left) and simulator view (right)
   
 - The ROS2 bags and ground truth data are stored locally, which can be visualised or downloaded via the portal. It happens the same way in the real arena robot, but the main difference is obviously in a cloud VM environment.
 - The Gazebo web client interface is used only for visualising the GUI output of the simulator to the users within WebGL-compliant browsers. The association of experiment containers with simulator instances uses a separate Kubernetes cluster for each simulation instance.
 
 Validate experiments before using the arena
 
-- The user can use the simulation environment first to validate an experiment. In validation mode, the world files cannot be overridden. The experiment must complete successfully, without any robot or wall collisions, to be permitted to run subsequently in the arena environment. Once the experiment has been validated in the simulation environment, the user can run the experiment in the arena.
+- The user can use the simulation environment first to validate an experiment. In validation mode, Users cannot override the world files. The experiment must complete successfully, without any robot or wall collisions, to be permitted to run in the arena. Once the experiment has been validated in the simulation environment, the user can run the experiment in the arena.
 
 Experiment process
 
@@ -83,7 +145,7 @@ Experiment process
 - In both the simulation and arena environments, the experiment containers are deployed when the experiment starts. A first-in, first-out queue is used to schedule the start times.
 - After the experiment starts, the containers initialise and subscribe to the ROS2 topics.
 - In the simulator environment, the containers also need to spawn the robot model instance in the Gazebo simulator. Containers are passed the environment variable ROBOTSIM, and its value is true when running in the simulator.
-- The start position and orientation of the robot are passed as an environment variable ROBOTPOSE which provides the x, and y coordinates from the centre reference and the orientation in radians. For example; 1.0,-1.0,0.5. In addition, the ROBOTID environment variable contains the friendly name of the robot instance. An additional environment variable called controllerOptions is passed to the experiment containers containing the controller option to run for the experiment.
+- The start position and orientation of the robot are passed as an environment variable ROBOTPOSE which provides the x and y coordinates from the centre reference and the orientation in radians. For example; 1.0,-1.0,0.5. In addition, the ROBOTID environment variable contains the friendly name of the robot instance. An additional environment variable called controllerOptions is passed to the experiment containers containing the controller option to run for the experiment.
 - The spawning of the robot models is performed using the following bootstrap code in the experiment container
 
   .. code:: none
@@ -114,14 +176,14 @@ Experiment process
    .. figure:: _static/Images/2_GettingStarted/Message_sequence_diagram_digital_twin_simulation.png
       :width: 600
       :align: center      
-      :alt: Robot ground truth map view (left) and simulator view (right)
-- The contents can include the ground truth odometry data that the user can use to evaluate the experiment. Video, ground truth or simulator visualisations are also provided in the portal during the experiment. Note that the experiment can be cancelled in the event of any unintended behaviour.      
+      :alt: Ground truth map view (left) and simulator view (right)
+- The contents can include the ground truth odometry data that the user can use to evaluate the experiment. Video, ground truth or simulator visualisations are provided in the portal during the experiment. Users can cancel the experiment in the event of any unintended behaviour.      
 
 Creating Images
 ---------------
 
 - The user must build container images to create and run experiments in the physical robot arena and simulation environments. 
-- We describe how to build the experiment Docker container images, with instructions for the robot simulator testbed, using an example Docker radio simulator container - ``timfa/radiosimulator:latest``. Alternatively, the prebuilt ``timfa/controller:base`` controller image can be used if only the main controller python files are being customised, as they can be loaded at runtime.
+- We describe how to build the experiment Docker container images, with instructions for the robot simulator testbed, using an example Docker radio simulator container - ``timfa/radiosimulator:latest``. Alternatively, the pre-built ``timfa/controller:base`` controller image can be used if only the main controller python files are being customised, as they can be loaded at runtime.
 - All container images are security scanned for vulnerabilities and must not be higher than a medium level to be permitted to run on the testbed.
 
 Controller Image
@@ -298,7 +360,8 @@ When building a final controller image, the entry point command needs to be adde
   RUN /bin/bash -c "source ./install/setup.bash"
   CMD ./loadmodels.sh  
 
-In this case, the ``loadmodules.sh``is loading the controller script from the radio simulator container (this could also load the local controller or from an alternative remote location). Override the loadmodules.sh to customise how the initial controller scripts are loaded
+
+In this case, the ``loadmodules.sh`` is loading the controller script from the radio simulator container (this could also load the local controller or from an alternative remote location). Override the loadmodules.sh to customise how the initial controller scripts are loaded.
 
 .. code:: console
 
@@ -366,7 +429,7 @@ Where the ``controller.launch.py`` is the Python code for the controller initial
 
 
       #---------------------------------------------------------------------------
-      # CONTROLLER OPTION HAS YOUR CONTOLLER 
+      # CONTROLLER OPTION HAS YOUR CONTROLLER 
       #---------------------------------------------------------------------------
       controller_cmd = Node(
           package     = 'dots_example_controller',
@@ -403,7 +466,7 @@ Where the ``controller.launch.py`` is the Python code for the controller initial
 Radio Simulator Image
 ^^^^^^^^^^^^^^^^^^^^^
 
-- Users can define their radio simulators to run on the testbed platform. It uses the virtual serial port redirection in order to emulate the radios. These are exposed in the controller containers as serial ports, which can be used with ROS2 over `serial code examples <https://github.com/osrf/ros2_serial_example>`_ .
+- Users can define their radio simulators to run on the testbed platform. It uses the virtual serial port redirection to emulate the radios. These are exposed in the controller containers as serial ports, which can be used with ROS2 over `serial code examples <https://github.com/osrf/ros2_serial_example>`_ .
 - The COBS encapsulation can be used to delimit the messages intercepted and redirected to the radio simulator container. The radio simulator containers expose HTTP port 80 as a REST API to emulate the radio performance. The REST API definition for the radio serial port redirected messages ``/msg`` is called each time a message is redirected from a specific serial port on each robot. 
 - The response contains the recipients of the message and the corresponding performance:
 
@@ -547,7 +610,7 @@ Radio Simulator Image
        ]
       }
 
-- The ground truth contains an array of groundtruth data corresponding to each robot or other object. The data contains the odometry elements for each object. An example JSON groundtruth object is:
+- The ground truth contains an array of groundtruth data corresponding to each robot or other object. The data includes the odometry elements for each object. An example JSON groundtruth object is:
 
   .. code:: json 
 
@@ -750,7 +813,7 @@ Example radio simulator in C#
 Example Docker file to build the radio simulator experiment container image
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-The example image can be obtained from ``timfa/radiosimulator:latest`` Note that the ubuntu base images need to be used to avoid image vulnerability issues.
+Users can obtain the example image from ``timfa/radiosimulator:latest`` Note that the ubuntu base images need to be used to avoid image vulnerability issues.
 
 .. code:: docker
 
@@ -946,6 +1009,23 @@ Creating Binaries
 Lora Networks
 =============
 
+The LoRa Network for the UMBRELLA project refers to the Chirpstack Network Server running on the UMBRELLA backend and a subset of UMBRELLA nodes that act as gateways. The webpages the user interacts with are wrappers around the Chirpstack API to provide continuity between UMBRELLA platforms.
+
+This guide intends to explain to the user the process of creating LoRaWAN Applications in UMBRELLA - quirks to be aware of etc. This guide will not seek to explain LoRaWAN, for which there is ample much better documentation. Additionally, external links to Chirpstack pages will be provided where appropriate, as the overwhelming majority of the user interface and naming remain unchanged.
+
+The contents of this section are described below, and generally speaking, should be followed through in sequential order for users seeking to create new LoRaWAN applications.
+
+Creating Applications
+---------------------
+
+Creating Service Profiles
+-------------------------
+
+Device Profiles
+---------------
+
+
+
 Street Lights
 =============
 
@@ -956,10 +1036,10 @@ Steps
 -----
 
 - Visit `UMBRELLA Portal <https://portal.umbrellaiot.com/>`_ , `Login`, `UMBRELLA HOME` → `Air Quality Dashboard`
-- By default, `The Ambient Conditions` dashboard will be opened.
-- From the top right side menu option, the dashboard can be refreshed, or the time range can be changed.
+- By default, `Portal will open the Ambient Conditions` dashboard.
+- From the top right side menu option, Users can refresh the dashboard or users can change the time range.
 - The user can select the nodes on the top left side.
-- To download the data, the `Export Table` panel can be used; perform `Inspect → Data → Download CSV` to download the data in the `CSV` file
+- To download the data, Users can use the `Export Table` panel; perform `Inspect → Data → Download CSV` to download the data in the `CSV` file
 - Below are the dashboards available
 
   - Ambient Conditions
@@ -972,6 +1052,8 @@ Steps
   - Alphasense OX
   - Alphasense NO2
 
-  .. image:: _static/Images/2_GettingStarted/AirQuality.gif
-     :alt: Air Quality
-     :align: center
+.. video:: _static/Video/AirQuality_Experiment.mp4
+   :width: 500
+   :height: 300
+
+     

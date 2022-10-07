@@ -16,7 +16,7 @@ Hardware
 Backend Tier
 ^^^^^^^^^^^^
 
-- Powerful servers with GPU access
+- Powerful servers
 
 Edge Tier
 ^^^^^^^^^
@@ -39,6 +39,26 @@ Edge node consists of small board computers (SBC) and an AI node that provides a
     - For new projects, different hardware can be plugged into the modules using USB 2.0. 
 - Deployment
     - UMBRELLA nodes can be mounted on posts or walls in many settings, whether roadside on lamp posts, factory walls or in shopping venues.
+
+Different Edge nodes variants
+"""""""""""""""""""""""""""""
+
+- Road Side Standard (RSS)
+
+  - UMBRELLA Endpoint
+  - UMBRELLA Ambient HAT 
+  - ICM20600 6 DoF IMU 
+  - SPH0645LM4H I2S Microphone 
+  - BME680 Temp Humidity Sensor 
+  - MICS-6814 Multi-Gas Sensor 
+  - SDS011
+- Road Side Edge (RSE)
+
+  - RSS + Jetson Nano Developer Kit 4GB 
+- Road Side LoRa (RSE-L)
+
+  - RSE + LoRa Basestation
+
 
 Schematics
 """"""""""

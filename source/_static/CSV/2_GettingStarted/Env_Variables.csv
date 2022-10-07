@@ -1,0 +1,6 @@
+﻿Daemon control interface port,The network port on which the UMBRELLA software daemon's control interface operates,-EXP_DAEMON_INTERFACE_PORT,string,"5555"
+MQTT port,The network port on which the UMBRELLA network's MQTT broker operates,EXP_MQTT_PORT,string,"8883"
+MQTT Topic Code,The unique per experiment topic code for all MQTT topics. For example: `experiment/{ExperimentTopicCode}/{streamID}/{hostName}`,EXP_MQTT_TOPIC_CODE,string,"example-experiment"
+Broker Address,The network address of the UMBRELLA MQTT broker,EXP_MQTT_BROKER_ADDRESS,string,"35.189.69.217"
+Sensor Sub Port,The network port on which the UMBRELLA software daemon publishes sensor data,EXP_SENSOR_SUB_PORT,string,"5556"
+Experiment ID,The string that will be used to identify mqtt data from multiple instances of the same container on a single host,EXP_ID,string,"example"

@@ -9,8 +9,8 @@ import sphinx_theme
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'UMBRELLA Wiki'
-copyright = '2022, Umbrella Team'
-author = 'Umbrella Team'
+copyright = '2022, Umbrella'
+author = 'Umbrella'
 release = '0.0.1'
 
 # -- General configuration ---------------------------------------------------
@@ -53,7 +53,7 @@ html_use_index = False
 
 # If true, links to the reST sources are added to the pages.
 #
-html_show_sourcelink = True
+html_show_sourcelink = False
 
 # If true, "Created using Sphinx" is shown in the HTML footer. Default is True.
 #

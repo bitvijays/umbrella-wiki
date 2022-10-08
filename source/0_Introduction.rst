@@ -8,7 +8,7 @@ Introduction
 
 Here is a small video to provide a brief introduction.
 
-.. video:: _static/Video/UMBRELLA_Video.mp4
+.. video:: _static/Video/Umbrella_Video2.mp4
    :width: 500
    :height: 300
 

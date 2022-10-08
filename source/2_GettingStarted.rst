@@ -157,6 +157,16 @@ Steps
 2. New Project > Enter `Project Name`, `Description`, `Arena` (default, dummy Node Network) > `Create Project`
 3. The Files section provides a user to upload container images (for running on Controller and Radio Simulator), configurations (for Configuration and World) and Binary images (for nrf52 and cc1310).
 4. Users can upload the container images from a public repo (such as docker registry or container registry) or local file (.tar).
+5. Specify the duration of the experiment.
+6. Validate experiment containers with the simulator, to check that they are operating correctly, by running the experiments’ containers, together with a simulator container, using the real arena environment files.
+7. Run the simulations.
+8. Observe the progress through the Gazebo web view.
+9. Results of the experiments are returned and displayed on the Umbrella portal interface.
+
+
+.. video:: _static/Video/Robots_Experiment.mp4
+   :width: 500
+   :height: 300
 
 - The digital twin setup and steps required for deployment are illustrated below. The ARM and X86_64 VM configurations supporting the digital twins run experiment containers in the same manner as the physical arena. Limiting the number of robot instances permitted (e.g. 120) to run in the simulator VM is possible. The main differences between the simulator and real arena deployments are that in the arena, the maximum number of robots is 20, and in the simulator, an additional radio simulation container and configuration files are permitted per experiment. 
 

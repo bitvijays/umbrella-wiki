@@ -39,11 +39,12 @@ master_doc = 'index'
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 html_theme = 'sphinx_rtd_theme'
+html_logo = "_static/Images/umbrella_logo.png"
 
 html_theme_options = {
     # 'analytics_id': 'G-XXXXXXXXXX',  #  Provided by Google in your dashboard
     # 'analytics_anonymize_ip': False,
-    # 'logo_only': False,
+    'logo_only': True,
     # 'display_version': True,
     # 'prev_next_buttons_location': 'bottom',
     # 'style_external_links': False,

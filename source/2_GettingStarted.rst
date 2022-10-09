@@ -1076,16 +1076,39 @@ This guide intends to explain to the user the process of creating LoRaWAN Applic
 
 The contents of this section are described below, and generally speaking, should be followed through in sequential order for users seeking to create new LoRaWAN applications.
 
+From the UMBRELLA Portal, click on the LoRa Networks widget to take you to the LoRa portal, click through and if you're registered and logged in you should be greeted with a Create Organisation page - which is shown below.
+
+`Organsiations are used within Chirpstack <https://www.chirpstack.io/application-server/use/organizations>`_. to provide separate environments for different groups of users, allowing them to configure their devices and add their applications .
+
 Creating Applications
 ---------------------
+
+`Applications allow organisations to separate their projects <https://www.chirpstack.io/application-server/use/applications/>`_. An example of this could logically separating two sets of devices by location. In order to receive and process data in the UMBRELLA Portal the user must create at least one Application.
+
+When on the Applications tab, click Create Application to bring up the window as shown in the image below. Name your application something descriptive and add something more descriptive for the description. Select the Service Profile you created earlier and create the application.
 
 Creating Service Profiles
 -------------------------
 
+Service profiles allow the user to optionally add things such as Gateway Metadata to their payloads sent to the application server. The configuration of Service Profiles is documented `here <https://www.chirpstack.io/application-server/use/service-profiles/>`_.
+
+An example configuration for a Service Profile is shown below. Where limits for data-rate and and frequency are not required, they can be populated with zeroes
+
 Device Profiles
 ---------------
 
+This section details creating `device profiles <https://www.chirpstack.io/application-server/use/device-profiles>`_. Device profiles ways of managing different LoRaWAN devices types within an Organisation. This allows new devices to be associated with a specific LoRaWAN profile rather than requiring configuration from scratch each time a similar device is added to an application (project). The details pertinent to a given device profile will be the configured attributes within the LoRaWAN stack used on the end device as well as things such as approximate uplink time.
 
+Additionally, the device profile provides the user with a codec for sending and receiving data to the end-device.
+
+Integrations
+------------
+
+So, you've configured your device and data is coming into the portal, great! However, unless you want to copy it by hand you'll need a plan. Integrations provide the user a way to push received data onto a third party service for storage. The integrations supported by UMBRELLA are posting the data to an http url or integration with InfluxDB.
+
+.. video:: _static/Video/LoRa_Experiment.mp4
+   :width: 500
+   :height: 300
 
 Street Lights
 =============

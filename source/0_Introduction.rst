@@ -81,6 +81,10 @@ Use-case key features
 - Decentralised industrial IoT Bus support using DDS/ROS2
 - Optitrack™ ground truth data with millimetre accuracy for tracking robots and performance evaluation
 
+Lora Testbed
+------------
+
+.. todo:: Write about Lora-testbed
 
 Users
 =====
@@ -222,3 +226,8 @@ Approach
 - The UMBRELLA offers the capability to test, evaluate, and trial private 5G technology and support different use cases, such as versatile warehousing and logistics scenarios, as part of an end-to-end IIoT system. 
 - Private 5G connectivity is provided through a 5G network-in-a-box solution which includes a radio access network (RAN) and a core network and supports commercial off-the-shelf (COTS) devices like handsets and dongles.
 - The private 5G network is based on non-standalone (NSA) mode and can operate in several sub-6 GHz frequency bands, including those opened explicitly for private deployments.
+
+Lora Testbed
+------------
+
+.. todo:: Write use-cases from Lora

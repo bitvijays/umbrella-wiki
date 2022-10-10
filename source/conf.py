@@ -18,10 +18,14 @@ release = '0.0.1'
 
 extensions = ['myst_parser',
               'sphinxcontrib.video',
-              'sphinx_copybutton',]
+              'sphinx_copybutton',
+              'sphinx.ext.todo',
+              'sphinx.ext.autosectionlabel'
+              ]
 
 templates_path = ['_templates']
 exclude_patterns = []
+todo_include_todos = True
 
 
 # The suffix(es) of source filenames.

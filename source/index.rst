@@ -1,7 +1,5 @@
-UMBRELLA Documentation
-======================
-
-Welcome to UMBRELLA (Urban Multi Wireless Broadband and IoT Testing for Local Authority and Industrial Applications)
+Documentation
+=============
 
 .. toctree::
    :maxdepth: 2

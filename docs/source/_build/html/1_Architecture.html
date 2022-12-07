@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Architecture &mdash; UMBRELLA Wiki 0.0.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/clipboard.min.js"></script>
+        <script src="_static/copybutton.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Getting Started" href="2_GettingStarted.html" />
+    <link rel="prev" title="Introduction" href="0_Introduction.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html">
+            <img src="_static/umbrella_logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="0_Introduction.html">Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="0_Introduction.html#testbeds">Testbeds</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="0_Introduction.html#smart-city-sensing-and-wireless-testbed">Smart City Sensing and Wireless Testbed</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="0_Introduction.html#testbed-features-and-benefits">Testbed features and Benefits</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="0_Introduction.html#robotics-testbed">Robotics Testbed</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="0_Introduction.html#id1">Testbed features and Benefits</a></li>
+<li class="toctree-l4"><a class="reference internal" href="0_Introduction.html#use-case-key-features">Use-case key features</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="0_Introduction.html#lora-testbed">Lora Testbed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="0_Introduction.html#users">Users</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="0_Introduction.html#hardware-developers">Hardware Developers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="0_Introduction.html#software-developers">Software Developers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="0_Introduction.html#data-users">Data Users</a></li>
+<li class="toctree-l3"><a class="reference internal" href="0_Introduction.html#platform-users">Platform Users</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="0_Introduction.html#use-cases">Use cases</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="0_Introduction.html#id3">Smart City Sensing and Wireless Testbed</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="0_Introduction.html#air-quality-sensing">Air Quality Sensing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="0_Introduction.html#street-light-monitoring">Street Light monitoring</a></li>
+<li class="toctree-l4"><a class="reference internal" href="0_Introduction.html#large-scale-wireless-testbed">Large Scale Wireless Testbed</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="0_Introduction.html#id9">Robotics Testbed</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="0_Introduction.html#swarm-robotics">SWARM Robotics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="0_Introduction.html#private-5g-use-case-for-warehousing-and-logistics">Private 5G Use-case for Warehousing and Logistics</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="0_Introduction.html#id15">Lora Testbed</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Architecture</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#smart-city-sensing-and-wireless-testbed">Smart City Sensing and Wireless Testbed</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#hardware">Hardware</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#backend-tier">Backend Tier</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#edge-tier">Edge Tier</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#endpoint-tier">Endpoint Tier</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#software">Software</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#microservices">Microservices</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#robotics-testbed">Robotics Testbed</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Hardware</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#robot-specifications">Robot Specifications</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">Software</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#software-stack-layer">Software stack layer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#interfaces">Interfaces</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id3">Microservices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#containerized-components">Containerized components</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#lora-testbed">Lora Testbed</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="2_GettingStarted.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="2_GettingStarted.html#user-registration">User Registration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="2_GettingStarted.html#steps">Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="2_GettingStarted.html#umbrella-networks">Umbrella Networks</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="2_GettingStarted.html#id1">Steps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="2_GettingStarted.html#creating-container-images">Creating Container Images</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="2_GettingStarted.html#data-communication">Data Communication</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="2_GettingStarted.html#creating-binary-images">Creating Binary Images</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="2_GettingStarted.html#toolchain-setup">Toolchain Setup</a></li>
+<li class="toctree-l4"><a class="reference internal" href="2_GettingStarted.html#cloning-and-patching-contiki-ng">Cloning and Patching Contiki-NG</a></li>
+<li class="toctree-l4"><a class="reference internal" href="2_GettingStarted.html#building-firmware">Building firmware</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="2_GettingStarted.html#robotic-networks">Robotic Networks</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="2_GettingStarted.html#id4">Steps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="2_GettingStarted.html#creating-images">Creating Images</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="2_GettingStarted.html#controller-image">Controller Image</a></li>
+<li class="toctree-l4"><a class="reference internal" href="2_GettingStarted.html#radio-simulator-image">Radio Simulator Image</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="2_GettingStarted.html#creating-configuration">Creating Configuration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="2_GettingStarted.html#configuration-files">Configuration Files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="2_GettingStarted.html#world-files">World Files</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="2_GettingStarted.html#creating-binaries">Creating Binaries</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="2_GettingStarted.html#lora-networks">Lora Networks</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="2_GettingStarted.html#creating-applications">Creating Applications</a></li>
+<li class="toctree-l3"><a class="reference internal" href="2_GettingStarted.html#creating-service-profiles">Creating Service Profiles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="2_GettingStarted.html#device-profiles">Device Profiles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="2_GettingStarted.html#integrations">Integrations</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="2_GettingStarted.html#street-lights">Street Lights</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2_GettingStarted.html#air-quality-dashboard">Air Quality Dashboard</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="2_GettingStarted.html#id7">Steps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="2_GettingStarted.html#sensor-api">Sensor API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="2_GettingStarted.html#authorization">Authorization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="2_GettingStarted.html#login">Login</a></li>
+<li class="toctree-l4"><a class="reference internal" href="2_GettingStarted.html#get-list-of-nodes">Get List of Nodes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="2_GettingStarted.html#get-sensor-data">Get Sensor Data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="2_GettingStarted.html#get-all-nodes-for-a-sensor">Get All Nodes for a Sensor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="2_GettingStarted.html#get-list-of-sensors">Get List of Sensors</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="99_Contact.html">Contact</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">UMBRELLA Wiki</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Architecture</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="architecture">
+<h1>Architecture<a class="headerlink" href="#architecture" title="Permalink to this heading"></a></h1>
+<p>Here we provide more details about the architecture and the testbeds.</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#smart-city-sensing-and-wireless-testbed"><span class="std std-ref">Smart City Sensing and Wireless Testbed</span></a></p></li>
+<li><p><a class="reference internal" href="#robotics-testbed"><span class="std std-ref">Robotics Testbed</span></a></p></li>
+<li><p><a class="reference internal" href="#lora-testbed"><span class="std std-ref">Lora Testbed</span></a></p></li>
+</ul>
+<div class="section" id="smart-city-sensing-and-wireless-testbed">
+<h2>Smart City Sensing and Wireless Testbed<a class="headerlink" href="#smart-city-sensing-and-wireless-testbed" title="Permalink to this heading"></a></h2>
+<div class="section" id="hardware">
+<h3>Hardware<a class="headerlink" href="#hardware" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p>Three-tier architecture consisting of a Backend (servers), an Edge (small board computers) deployed on the street lamps/citizen houses/buildings and Endpoints (onboard sensors).</p></li>
+</ul>
+<div class="section" id="backend-tier">
+<h4>Backend Tier<a class="headerlink" href="#backend-tier" title="Permalink to this heading"></a></h4>
+<ul class="simple">
+<li><p>Powerful servers</p></li>
+</ul>
+</div>
+<div class="section" id="edge-tier">
+<h4>Edge Tier<a class="headerlink" href="#edge-tier" title="Permalink to this heading"></a></h4>
+<p>The edge node consists of small board computers (SBC) and an AI node that provides an IoT access point that can house a variety of radios and sensors in stylish, interchangeable modules.</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>Computing Power</dt><dd><ul>
+<li><p>All nodes are powered by a <a class="reference external" href="https://www.raspberrypi.com/products/compute-module-3-plus/">Raspberry Pi 3+</a>.</p></li>
+<li><p>Edge-capable nodes are powered further by a <a class="reference external" href="https://developer.nvidia.com/embedded/jetson-nano-developer-kit">Jetson Nano</a>.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Radios</dt><dd><ul>
+<li><p><a class="reference external" href="https://www.nordicsemi.com/products/nrf52840">Nordic Semiconductor nRF52840</a> with Power Amplifier capable of both BLE and 802.15.4 using Contiki-NG.</p></li>
+<li><p><a class="reference external" href="https://www.ti.com/product/CC1310">Texas Instruments CC1310</a> 868MHz long-range radio supported by Contiki-NG.</p></li>
+<li><p><a class="reference external" href="https://www.hoperf.com/modules/lora/RFM95.html">HopeRF RFM95W</a> LoRa transceiver</p></li>
+<li><p><a class="reference external" href="https://www.rakwireless.com/en-us/products/lpwan-gateways-and-concentrators/rak2247">RAKwireless RAK2247</a> LoRaWAN gateway (on selected nodes)</p></li>
+<li><p>GPS receiver for time synchronisation</p></li>
+<li><p>Wi-Fi radio for backbone connectivity</p></li>
+<li><p>4G cellular dongle for backup connectivity</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Enclosures</dt><dd><ul>
+<li><p>Equipment is housed in three large and three small diamond-shaped plastic modules.</p></li>
+<li><p>For new projects, different hardware can be plugged into the modules using USB 2.0.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Deployment</dt><dd><ul>
+<li><p>UMBRELLA nodes can be mounted on posts or walls in different settings, whether roadside on lamp posts, factory walls or shopping venues.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<div class="section" id="different-edge-nodes-variants">
+<h5>Different edge nodes variants<a class="headerlink" href="#different-edge-nodes-variants" title="Permalink to this heading"></a></h5>
+<ul class="simple">
+<li><p>Road Side Standard (RSS)</p>
+<ul>
+<li><p>UMBRELLA Endpoint</p></li>
+<li><p>UMBRELLA Ambient HAT</p></li>
+<li><p>ICM20600 6 DoF IMU</p></li>
+<li><p>SPH0645LM4H I2S Microphone</p></li>
+<li><p>BME680 Temp Humidity Sensor</p></li>
+<li><p>MICS-6814 Multi-Gas Sensor</p></li>
+<li><p>SDS011</p></li>
+</ul>
+</li>
+<li><p>Road Side Edge (RSE)</p>
+<ul>
+<li><p>RSS + Jetson Nano Developer Kit 4GB</p></li>
+</ul>
+</li>
+<li><p>Road Side LoRa (RSE-L)</p>
+<ul>
+<li><p>RSE + LoRa Basestation</p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="edge-schematics">
+<h5>Edge Schematics<a class="headerlink" href="#edge-schematics" title="Permalink to this heading"></a></h5>
+<ul>
+<li><p>The Umbrella Node hardware can be considered composed of several interacting subsystems. Blue items indicate OTS hardware modules; Green items indicate Toshiba-BRIL designed modules.</p></li>
+<li><p>The Umbrella node requires a mains power supply to operate. The power over ethernet injector receives a mains voltage supply regulated down to 5V DC and 48V DC supplies to the Network Hat.</p></li>
+<li><p>The modules that make up the Umbrella system are powered mainly by a mixture of 5V DC and 3.3V DC. The power supply to the motherboard is composed of a PoE injector and the PoE Motherboard hat.</p>
+<div class="figure align-center" id="id4">
+<a class="reference internal image-reference" href="_images/Hardware_Block_Diagram_Umbrella.png"><img alt="Hardware Block Diagram of Umbrella Road-Side Node" src="_images/Hardware_Block_Diagram_Umbrella.png" style="width: 300px;" /></a>
+<p class="caption"><span class="caption-text">Hardware Block Diagram of Umbrella Road-Side Node</span><a class="headerlink" href="#id4" title="Permalink to this image"></a></p>
+</div>
+</li>
+<li><p>The network hat provides a network interface to the Raspberry Pi (<a class="reference external" href="https://www.microchip.com/en-us/product/LAN9512">Microchip LAN9512</a> 10/100 Ethernet to USB bridge). A USB connection is also provided to an AR9271 Wi-Fi Dongle.</p></li>
+<li><p>A power monitor has been incorporated into the design of the network hat. The device communicates power consumption through an I2C interface to the SAMD21, located on the motherboard.</p>
+<div class="figure align-center" id="id5">
+<a class="reference internal image-reference" href="_images/Hardware_Block_Diagram_Umbrella_Motherboard_PoE_Network_Hat.png"><img alt="Hardware Block Diagram of Umbrella Motherboard PoE Network Hat" src="_images/Hardware_Block_Diagram_Umbrella_Motherboard_PoE_Network_Hat.png" style="width: 400px;" /></a>
+<p class="caption"><span class="caption-text">Hardware Block Diagram of Umbrella Motherboard PoE Network Hat</span><a class="headerlink" href="#id5" title="Permalink to this image"></a></p>
+</div>
+</li>
+<li><p>The motherboard is a Toshiba BRIL PCBA containing interfaces to a Raspberry Pi Compute Module 3 and other components for sensing and communication with peripheral devices and modules. The below diagram highlights the main communication mechanisms between modules.</p>
+<div class="figure align-center" id="id6">
+<a class="reference internal image-reference" href="_images/Hardware_Block_Diagram_Umbrella_Motherboard_Communication_Channel.png"><img alt="Hardware Block Diagram of main Umbrella Motherboard communication channels" src="_images/Hardware_Block_Diagram_Umbrella_Motherboard_Communication_Channel.png" style="width: 400px;" /></a>
+<p class="caption"><span class="caption-text">Hardware Block Diagram of main Umbrella Motherboard communication channels</span><a class="headerlink" href="#id6" title="Permalink to this image"></a></p>
+</div>
+</li>
+<li><p>Camera Interface: Two standard CSI connectors have been provided on the motherboard to connect cameras to the Raspberry Pi.</p></li>
+<li><p>GNSS: A u-Blox NEO-M8 GNSS module provide location tracking capabilities for the Node device and provides concurrent reception of up to three GNSS. Communications with the GNSS occur through a UART interface on the Raspberry Pi.</p></li>
+<li><p>Wireless Communication: The motherboard includes five radio modules.</p>
+<div class="figure align-center" id="id7">
+<a class="reference internal image-reference" href="_images/Hardware_Wireless.png"><img alt="Radio modules on the Umbrella Motherboard, their bus masters and part numbers" src="_images/Hardware_Wireless.png" style="width: 400px;" /></a>
+<p class="caption"><span class="caption-text">Radio modules on the Umbrella Motherboard, their bus masters and part numbers</span><a class="headerlink" href="#id7" title="Permalink to this image"></a></p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="endpoint-tier">
+<h4>Endpoint Tier<a class="headerlink" href="#endpoint-tier" title="Permalink to this heading"></a></h4>
+<ul class="simple">
+<li><dl class="simple">
+<dt>Sensors</dt><dd><ul>
+<li><p>Air Quality (VOC Index, Temperature, Humidity, Air Quality Index)</p></li>
+<li><p>Multi-gas (RED, OX, NH3)</p></li>
+<li><p>Particulate (PM2.5, PM10)</p></li>
+<li><p>NO2</p></li>
+<li><p>OX (Oxidising gas for ozone and nitrogen dioxide)</p></li>
+<li><p>Noise (for measuring ambient noise levels)</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Other</dt><dd><ul>
+<li><p>Sky-facing camera (for use in street light monitoring)</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<div class="section" id="endpoint-schematics">
+<h5>Endpoint Schematics<a class="headerlink" href="#endpoint-schematics" title="Permalink to this heading"></a></h5>
+<ul>
+<li><p>The Endpoint peripheral serves to provide a standard interface to external hardware. The Endpoint Peripheral exposes multiple hardware channels to the external device and provides 3.3V and 5V DC power.</p></li>
+<li><p>Central to the endpoint operation is an Atmel SAMD21 which communicates with the motherboard via a USB interface and manages the hardware-specific operations necessary to interact with sensor modules.</p>
+<div class="figure align-center" id="id8">
+<a class="reference internal image-reference" href="_images/Hardware_Block_Diagram_Umbrella_Endpoint_Peripheral_Device.png"><img alt="Hardware Block Diagram of the Umbrella Endpoint Peripheral Device showing main communication channels between the motherboard and external peripheral" src="_images/Hardware_Block_Diagram_Umbrella_Endpoint_Peripheral_Device.png" style="width: 400px;" /></a>
+<p class="caption"><span class="caption-text">Hardware Block Diagram of the Umbrella Endpoint Peripheral Device showing the main communication channels between the motherboard and external peripheral</span><a class="headerlink" href="#id8" title="Permalink to this image"></a></p>
+</div>
+</li>
+<li><p>The ambient sensor hat provides the endpoint device with an interface to environmental sensors. Several sensor modules are situated on the hat itself, and additional sensor modules that could not be accommodated on the standard Hat PCB due to size limitations are provided with connections.</p>
+<div class="figure align-center" id="id9">
+<a class="reference internal image-reference" href="_images/Hardware_Block_Diagram_Ambient_Sensor_Hat.png"><img alt="Hardware Block Diagram of Ambient Sensor Hat showing Main communication channels between local and external sensor modules to endpoint peripheral" src="_images/Hardware_Block_Diagram_Ambient_Sensor_Hat.png" style="width: 400px;" /></a>
+<p class="caption"><span class="caption-text">Hardware Block Diagram of Ambient Sensor Hat showing Main communication channels between local and external sensor modules to endpoint peripheral</span><a class="headerlink" href="#id9" title="Permalink to this image"></a></p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="section" id="software">
+<h3>Software<a class="headerlink" href="#software" title="Permalink to this heading"></a></h3>
+<ul>
+<li><p>The Umbrella backend and testbed management portal support the various use cases by providing the standard facilities for users to log in and deploy software (services, firmware and applications) to evaluate experiments that run on the testbed.</p></li>
+<li><p>Backend consists of</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Container registry: The container registry package supports Docker-based container registries through the Harbor server, a key backend component for storing and managing the software relating to different users’ projects and experiments.</p></li>
+<li><p>Software deployment on the testbed is achieved using the IoT Kubernetes deployment package based on a lightweight K3S version of the Kubernetes distributed processing framework.</p></li>
+<li><p>The management portal is the main entry point for testbed users to access the testbed and run experiments.</p></li>
+<li><p>The asset management package permits the monitoring and management of the Umbrella system, including all the nodes, software and network interfaces.</p></li>
+<li><p>The analytics package performs functions related to processing and displaying Umbrella system KPIs, API usage/performance and errors, and alerting anomalies.</p></li>
+</ul>
+</div></blockquote>
+<div class="figure align-center" id="id10">
+<a class="reference internal image-reference" href="_images/Architecture_UMBRELLA.png"><img alt="UMBRELLA Smart Sensing and Wireless Testbed Architecture" src="_images/Architecture_UMBRELLA.png" style="width: 600px;" /></a>
+<p class="caption"><span class="caption-text">UMBRELLA Smart Sensing and Wireless Testbed Architecture</span><a class="headerlink" href="#id10" title="Permalink to this image"></a></p>
+</div>
+</li>
+</ul>
+<div class="section" id="microservices">
+<h4>Microservices<a class="headerlink" href="#microservices" title="Permalink to this heading"></a></h4>
+<ul>
+<li><p>The umbrella platform is based on micro-service architecture, and user access is controlled as per the assigned role based on the Role-based access control (RBAC) mechanism.</p></li>
+<li><p>All the applications are deployed in a containerised fashion using Docker Containers, and the orchestration of the different containers is provided by the Kubernetes (K8s) framework.</p></li>
+<li><p>Each micro-service has one micro gateway, which provides security and API routing functionality.</p></li>
+<li><p>Different Microservices:</p>
+<ul>
+<li><p>Project Service: Responsible for creating and maintaining the projects for Umbrella Network and Robot Network</p>
+<ul class="simple">
+<li><p>A user can create a project from the umbrella portal, the project service internally makes a project in the Harbor registry, and all the Umbrella Network/Robot Network projects are linked with Harbor projects.</p></li>
+<li><p>Uploaded images are stored in the Harbor registry under the respective project. As part of uploading an image, the service performs the image tagging and push to the Harbor registry, and image scanning is initiated immediately after the image is uploaded successfully. Also, image types, i.e. “Raspberry Pi” and “Jetson Nano”, are maintained in the project service database.</p></li>
+<li><p>Binaries are stored in Minio Object storage. The service keeps the binary inside the folder (bucket) name the same as the project id. Binary types, i.e. “nrf52” and “cc1310”, are maintained in the database for each binary.</p></li>
+<li><p>This service provides multi-user support for a project by adding a user to the existing Harbor project, and Harbor maintains the project users and their roles. This service also takes care of maintaining the Umbrella Network user approval status.</p></li>
+<li><p>Project service communicates internally with other microservices such as experiment, node manager, IAM, and Lora.</p></li>
+</ul>
+</li>
+<li><p>Experiment Manager Service: Responsible for creating/running experiments</p>
+<ul>
+<li><p>It handles the creation, starts and stops of the experiment. There are two ways to create experiments (i) scheduled experiment and (ii) run as soon as available node experiment.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>The user provides the experiment start and end time for scheduled experiments. The service checks the node availability for the user-provided time and schedules accordingly. It also includes detailed information about nodes’ availability for a given period for the user to plan the experiment.</p></li>
+<li><p>Run as soon as available node option; the user cannot provide the start time, and the service decides the appropriate start time based on the user’s selected nodes.</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Experiment logs are provided after the end of the experiment for user analysis. These logs are fetched using Elastic Service and stored in Minio Object Storage. Currently, logs are formatted and stored per node basis.</p></li>
+</ul>
+</li>
+<li><p>Result Manager Service: Store and visualization of experiment result</p>
+<ul class="simple">
+<li><p>The service subscribes to MQTT topics to retrieve experiment results data with the MQTT broker.</p></li>
+<li><p>Edge nodes publish the experiment results data to the MQTT broker.</p></li>
+<li><p>On receive of data on specific MQTT topic i.e. <cite>experiment/{experimentId}/{hostname}/{streamId}</cite> , data will be stored in influxdb against the experimentId.</p></li>
+</ul>
+</li>
+<li><p>Node Monitor Service: maintains the details and status of Umbrella Network nodes and Robot Arena robots.</p>
+<ul class="simple">
+<li><p>Nodes and robots send a heartbeat every 10 minutes, and the node/robot analytics data every 2 sec.</p></li>
+</ul>
+</li>
+<li><p>Asset Management Service</p>
+<ul class="simple">
+<li><p>The service runs a scheduled job every 30 minutes that collects the node information such as hostname, node type, familiar name, GPS hash, and status to update the asset inventory.</p></li>
+</ul>
+</li>
+<li><p>IAM Service: Assign/Amend user roles.</p>
+<ul class="simple">
+<li><p>IAM service exposes API that will help to add new roles to the user.</p></li>
+</ul>
+</li>
+<li><p>Portal service</p>
+<ul class="simple">
+<li><p>The service is the primary consumer of all the APIs exposed by other services. It provides a user interface to use the Umbrella testbed and adapt it according to the user roles.</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="section" id="robotics-testbed">
+<h2>Robotics Testbed<a class="headerlink" href="#robotics-testbed" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>Industrial IoT approach based on the <a class="reference external" href="https://www.iso.org/standard/65695.html">IEC 30141 IoT reference architecture</a> and using Industrial IoT connectivity standards (REST/DDS)</p></li>
+<li><p>Hybrid cloud approach permitting remote access and experimentation</p></li>
+<li><p>The digital twins are simulators and machine learning models representing physical nodes or devices. For instance, robot simulators based on the open-source Gazebo or other software platforms.</p></li>
+<li><p>The main functions are configuring the simulator or model environment, loading appropriate node software, and running the simulations. Results can then be returned and displayed to the user.</p></li>
+<li><p>The Optitrack optical tracking system shall provide ground truth telemetry data for the robot node testbed arenas. The Optitrack system will use Infrared cameras deployed above the test arenas.</p></li>
+</ul>
+<div class="section" id="id1">
+<h3>Hardware<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h3>
+<p>Each robot is 25cm in diameter and can lift up to 4kg individually but can collaborate to tackle larger and heavier payloads.</p>
+<ul class="simple">
+<li><p>Communication and Management Stack</p>
+<ul>
+<li><p>Bluetooth 5.0/Wi-Fi (802.11ac)/Ultra-wide Band/(5G in the future)</p></li>
+<li><p>Data Distribution Service (DDS)</p></li>
+<li><p>Support for custom protocol stacks</p></li>
+</ul>
+</li>
+<li><p>Actuation</p>
+<ul>
+<li><p>3 x Omnidirectional wheels</p></li>
+<li><p>Lifter</p></li>
+<li><p>Strain gauges</p></li>
+</ul>
+</li>
+<li><p>GPU</p>
+<ul>
+<li><p><a class="reference external" href="https://rockpi.org/rockpi4">RockPi 4B</a> based with four onboard cameras</p></li>
+</ul>
+</li>
+<li><p>Sensors</p>
+<ul>
+<li><p>16 IR Laser time-of-flight distance</p></li>
+<li><p>9-Degrees of Freedom (9DoF) inertial measurement unit (IMU)</p></li>
+<li><p>Ambient temperature, pressure, humidity</p></li>
+<li><p>Robot health (various voltage, current and temperature sensors)</p></li>
+</ul>
+</li>
+</ul>
+<div class="figure align-center" id="id11">
+<a class="reference internal image-reference" href="_images/UMBRELLA_Robot.png"><img alt="UMBRELLA ROBOT" src="_images/UMBRELLA_Robot.png" style="width: 400px;" /></a>
+<p class="caption"><span class="caption-text">UMBRELLA ROBOT</span><a class="headerlink" href="#id11" title="Permalink to this image"></a></p>
+</div>
+<div class="section" id="robot-specifications">
+<h4>Robot Specifications<a class="headerlink" href="#robot-specifications" title="Permalink to this heading"></a></h4>
+<p>The DOTS (Distributed Organisation and Transport Systems) swarm robots support movement, sensing, communication and actuation (lifting objects) and processing. The specifications are outlined below.</p>
+<table class="docutils align-default" id="id12">
+<caption><span class="caption-text">DOTS Robot specifications</span><a class="headerlink" href="#id12" title="Permalink to this table"></a></caption>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Specification</p></th>
+<th class="head"><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Diameter</p></td>
+<td><p>250mm</p></td>
+</tr>
+<tr class="row-odd"><td><p>Height</p></td>
+<td><p>120mm lifter down and 200mm lifter up</p></td>
+</tr>
+<tr class="row-even"><td><p>Speed</p></td>
+<td><p>2metres per second</p></td>
+</tr>
+<tr class="row-odd"><td><p>Acceleration</p></td>
+<td><p>2metres per second squared</p></td>
+</tr>
+<tr class="row-even"><td><p>Max load</p></td>
+<td><p>2kg</p></td>
+</tr>
+<tr class="row-odd"><td><p>Battery capacity</p></td>
+<td><p>100Wh</p></td>
+</tr>
+<tr class="row-even"><td><p>Battery life</p></td>
+<td><p>6 hours to 12 hours</p></td>
+</tr>
+<tr class="row-odd"><td><p>Battery charge time</p></td>
+<td><p>3 hours</p></td>
+</tr>
+<tr class="row-even"><td><p>Drive</p></td>
+<td><p>Holonomic 3 servomotor driven omniwheels</p></td>
+</tr>
+<tr class="row-odd"><td><p>Processors</p></td>
+<td><p>RockPi4B 4GB and 4x Raspberry Pi Zero</p></td>
+</tr>
+</tbody>
+</table>
+<p>The robot exposes many sensors to the experiment containers through the corresponding ROS2 topics.</p>
+<table class="docutils align-default" id="id13">
+<caption><span class="caption-text">DOTS Robot sensor specifications</span><a class="headerlink" href="#id13" title="Permalink to this table"></a></caption>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Sensor</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Update rate</p></th>
+<th class="head"><p>Max bandwidth (bytes/s)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Cameras x5</p></td>
+<td><p>OV5647 5MP</p></td>
+<td><p>Variable up to 60Hz</p></td>
+<td><p>Variable (eg 28M)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Microphones x2</p></td>
+<td><p>IM69D130</p></td>
+<td><p>44.1kHz</p></td>
+<td><p>180K</p></td>
+</tr>
+<tr class="row-even"><td><p>Laser time-of-flight distance x16</p></td>
+<td><p>VL53L1X</p></td>
+<td><p>50Hz</p></td>
+<td><p>10K</p></td>
+</tr>
+<tr class="row-odd"><td><p>6DoF IMU</p></td>
+<td><p>LSM6DSM</p></td>
+<td><p>1kHz</p></td>
+<td><p>12K</p></td>
+</tr>
+<tr class="row-even"><td><p>Magnetometer</p></td>
+<td><p>LIS2MDL</p></td>
+<td><p>1kHz</p></td>
+<td><p>6K</p></td>
+</tr>
+<tr class="row-odd"><td><p>Barometer</p></td>
+<td><p>LPS22HD</p></td>
+<td><p>1Hz</p></td>
+<td><p>&lt;10</p></td>
+</tr>
+<tr class="row-even"><td><p>Temp/humidity</p></td>
+<td><p>Si7021-A20</p></td>
+<td><p>1Hz</p></td>
+<td><p>&lt;10</p></td>
+</tr>
+<tr class="row-odd"><td><p>Strain gauge ADC x3</p></td>
+<td><p>MAX11210</p></td>
+<td><p>1kHz</p></td>
+<td><p>9K</p></td>
+</tr>
+<tr class="row-even"><td><p>General purpose 8 channel ADC</p></td>
+<td><p>MAX11615</p></td>
+<td><p>1kHz</p></td>
+<td><p>16K</p></td>
+</tr>
+<tr class="row-odd"><td><p>Power monitor x3</p></td>
+<td><p>INA219</p></td>
+<td><p>100Hz</p></td>
+<td><p>1.8K</p></td>
+</tr>
+<tr class="row-even"><td><p>PSU status</p></td>
+<td><p>STM32L031</p></td>
+<td><p>100Hz</p></td>
+<td><p>1K</p></td>
+</tr>
+<tr class="row-odd"><td><p>Battery status</p></td>
+<td><p>STM32L031</p></td>
+<td><p>10Hz</p></td>
+<td><p>100</p></td>
+</tr>
+</tbody>
+</table>
+<p>Radios are also provided in the robots, and users can flash the Bluetooth radios with custom firmware to evaluate user-defined protocols within experiments. The Bluetooth radios are accessed via the serial ports <code class="docutils literal notranslate"><span class="pre">/dev/ttyACM0</span></code> and <code class="docutils literal notranslate"><span class="pre">/dev/ttyACM1</span></code>. In the simulator environment, the radios are emulated, and it is possible to provide a custom radio simulator for evaluating the proprietary protocols.</p>
+<table class="docutils align-default" id="id14">
+<caption><span class="caption-text">DOTS Robot radios</span><a class="headerlink" href="#id14" title="Permalink to this table"></a></caption>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Technology</p></th>
+<th class="head"><p>Radio</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Bluetooth</p></td>
+<td><p>two nRF52840-based radios (/dev/ttyACM0 and /dev/ttyACM1)</p></td>
+</tr>
+<tr class="row-odd"><td><p>WiFi</p></td>
+<td><p>802.11ac compliant onboard radio</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="id2">
+<h3>Software<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h3>
+<ul>
+<li><p>The collaborative robot testbed software architecture is illustrated below.</p>
+<blockquote>
+<div><div class="figure align-center" id="id15">
+<a class="reference internal image-reference" href="_images/Robot_Testbed_Software_Architecture.png"><img alt="Robot testbed software architecture" src="_images/Robot_Testbed_Software_Architecture.png" style="width: 600px;" /></a>
+<p class="caption"><span class="caption-text">Robot testbed software architecture</span><a class="headerlink" href="#id15" title="Permalink to this image"></a></p>
+</div>
+</div></blockquote>
+</li>
+<li><p>Robot Arena</p>
+<ul class="simple">
+<li><p>The maximum number of robot nodes that can be used in experiments in the robot arena is 10 to 20, depending on the status. The status of a robot is either available or unavailable, and only the available robots are indicated in the experiment configuration step. A robot’s status is unavailable when recharging or undergoing maintenance or repairs.</p></li>
+<li><p>The ground truth system captures the actual robot positions available in the ROS2 topics <code class="docutils literal notranslate"><span class="pre">/rt/&lt;robotid&gt;/odom</span></code> and is stored in ROS2 bag log files.</p></li>
+</ul>
+</li>
+<li><p>Digital Simulator Environment:</p>
+<ul class="simple">
+<li><p>The architecture administrators can limit the number of robot instances permitted in the virtual experiments, allowing the user to run experiments using, for example, up to 120 robot instances, with swarm behaviour.</p></li>
+<li><p>The portal provides access to the simulator deployment environment in the cloud and the arena.</p></li>
+<li><p>The ground truth data from the Gazebo simulator, which contains the robot positions, is available in the ROS2 topics <code class="docutils literal notranslate"><span class="pre">/rt/&lt;robotid&gt;/odom</span></code> and is stored in the ROS2 bag log files.</p></li>
+<li><p>In the simulator, the user can use an additional radio simulation experiment container and additional configuration files in each experiment.</p></li>
+</ul>
+</li>
+<li><p>The digital twin setup and deployment of the Robotics Testbed allows a user to run simulation experiment containers in the cloud-based simulator environment; in the same way, the user runs experiments in the physical arena. How the experiment software is deployed and interacts with the gazebo simulator and physically with the robot nodes is the same: the simulator and physical arena use the ROSv2-based Data Distribution Service (DDS).</p></li>
+<li><p>The main difference between the physical node’s environment (left side) and the simulation platform (right side) is the ability to configure the simulation environment using environment world files. Deploying on the simulation environment permits the validation of experiment containers on the simulated environment (right side) by appropriate loading environment (world) files and then deploying to the actual arena robots (left side).</p>
+<blockquote>
+<div><div class="figure align-center" id="id16">
+<a class="reference internal image-reference" href="_images/Umbrella_robot_software_architecture.png"><img alt="Robot testbed software architecture" src="_images/Umbrella_robot_software_architecture.png" style="width: 600px;" /></a>
+<p class="caption"><span class="caption-text">Robot testbed software architecture</span><a class="headerlink" href="#id16" title="Permalink to this image"></a></p>
+</div>
+</div></blockquote>
+</li>
+<li><p>The deployment is achieved by emulating two interfaces exposed to the containers.</p>
+<ul class="simple">
+<li><p>First is the virtual serial ports interface, which is mapped to the real radio interface and redirects the interactions via the radio simulator.</p></li>
+<li><p>Second, the interactions with the ROS2 hardware interface (left-side diagram) are mapped via the DDS IoT bus (right-side diagram) to the gazebo simulator for the simulated environment models.</p></li>
+</ul>
+</li>
+</ul>
+<div class="section" id="software-stack-layer">
+<h4>Software stack layer<a class="headerlink" href="#software-stack-layer" title="Permalink to this heading"></a></h4>
+<p>The software stack is presented below and relies on integration with DDS and ROS2 to support different APIs (C++, Python and REST API for external application access).</p>
+<div class="figure align-center" id="id17">
+<a class="reference internal image-reference" href="_images/ROBOT_Software_Stack.png"><img alt="Software stack layers" src="_images/ROBOT_Software_Stack.png" style="width: 600px;" /></a>
+<p class="caption"><span class="caption-text">Software stack layers</span><a class="headerlink" href="#id17" title="Permalink to this image"></a></p>
+</div>
+</div>
+<div class="section" id="interfaces">
+<h4>Interfaces<a class="headerlink" href="#interfaces" title="Permalink to this heading"></a></h4>
+<div class="section" id="rest-based">
+<h5>REST based<a class="headerlink" href="#rest-based" title="Permalink to this heading"></a></h5>
+<p>Several interfaces are required to facilitate the interaction. The interfaces permit deployment of the experiments, retrieval of data subsequently to the experiment running and the visualisation of, for instance, the simulation or the video camera overlay.</p>
+<div class="figure align-center" id="id18">
+<a class="reference internal image-reference" href="_images/Robot_Interfaces_REST.png"><img alt="REST Based interfaces" src="_images/Robot_Interfaces_REST.png" style="width: 600px;" /></a>
+<p class="caption"><span class="caption-text">REST Based interfaces</span><a class="headerlink" href="#id18" title="Permalink to this image"></a></p>
+</div>
+</div>
+<div class="section" id="iot-bus-topics">
+<h5>IoT Bus Topics<a class="headerlink" href="#iot-bus-topics" title="Permalink to this heading"></a></h5>
+<ul>
+<li><p>DDS topics have been defined (primarily based on the ROS2 topics) to support the robots and experiment interactions.</p></li>
+<li><p>ROS topic partitions use the prefix <code class="docutils literal notranslate"><span class="pre">rt/&lt;robot_id&gt;/</span></code>.  <code class="docutils literal notranslate"><span class="pre">robot_id</span></code> distinguish between the different robots.</p>
+<div class="figure align-center" id="id19">
+<a class="reference internal image-reference" href="_images/Robot_Interfaces_Bus_Topics.png"><img alt="REST Based interfaces" src="_images/Robot_Interfaces_Bus_Topics.png" style="width: 600px;" /></a>
+<p class="caption"><span class="caption-text">REST Based interfaces</span><a class="headerlink" href="#id19" title="Permalink to this image"></a></p>
+</div>
+</li>
+</ul>
+<p>The table below lists the ROS2 (DDS) topics. All topics are prefixed with the robot hostname (with dashes converted to underscores), e.g. <code class="docutils literal notranslate"><span class="pre">/robot_88e9a579/cmd_vel</span></code>.</p>
+<table class="docutils align-default" id="id20">
+<caption><span class="caption-text">ROS2 (DDS) topics</span><a class="headerlink" href="#id20" title="Permalink to this table"></a></caption>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Topic</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Dir</p></th>
+<th class="head"><p>Notes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>power_en</p></td>
+<td><p>std_msgs.Bool</p></td>
+<td><p>In</p></td>
+<td><p>Enable actuator power (motor and lifter). This is a watchdog reset that starts a 50ms hardware countdown and power will be cut without repeated true messages received. This must be sent by the control server only when the big red button is enabled.</p></td>
+</tr>
+<tr class="row-odd"><td><p>motor_en</p></td>
+<td><p>std_msgs.Bool</p></td>
+<td><p>In</p></td>
+<td><p>Enable motor control. \ Power must also be enabled for the motors to run.</p></td>
+</tr>
+<tr class="row-even"><td><p>cmd_vel</p></td>
+<td><p>geometry_msgs.Twist</p></td>
+<td><p>In</p></td>
+<td><p>Set velocity and angular velocity of motor drive.</p></td>
+</tr>
+<tr class="row-odd"><td><p>lifter</p></td>
+<td><p>td_msgs.Bool</p></td>
+<td><p>In</p></td>
+<td><p>The value True causes the lifter to move to a raised position. \ The value false causes the lifter to be moved to a lowered position. \ A message received while lifter is in motion will change motion if new goal is different</p></td>
+</tr>
+<tr class="row-even"><td><p>led</p></td>
+<td><p>std_msgs.Int32MultiArray</p></td>
+<td><p>In</p></td>
+<td><p>RGB control of the 16 perimeter LEDs. \ 16 entry array with (B[23:16]; G[15:8]; R[7:0])</p></td>
+</tr>
+<tr class="row-odd"><td><p>sensor/mode</p></td>
+<td><p>std_msgs.Int32</p></td>
+<td><p>In</p></td>
+<td><p>0 - Normal operation; 1 - Run IMU calibration</p></td>
+</tr>
+<tr class="row-even"><td><p>reflect_in</p></td>
+<td><p>std_msgs.Float64</p></td>
+<td><p>In</p></td>
+<td><p>Ping message in</p></td>
+</tr>
+<tr class="row-odd"><td><p>reflect_out</p></td>
+<td><p>std_msgs.Float64</p></td>
+<td><p>Out</p></td>
+<td><p>Ping message out</p></td>
+</tr>
+<tr class="row-even"><td><p>cam0/image/compressed</p></td>
+<td><p>sensor_msgs.CompressedImage</p></td>
+<td><p>Out</p></td>
+<td><p>Front left camera. All cameras are 640x480 30fps MJPEG</p></td>
+</tr>
+<tr class="row-odd"><td><p>cam1/image/compressed</p></td>
+<td><p>sensor_msgs.CompressedImage</p></td>
+<td><p>Out</p></td>
+<td><p>Back left camera</p></td>
+</tr>
+<tr class="row-even"><td><p>cam2/image/compressed</p></td>
+<td><p>sensor_msgs.CompressedImage</p></td>
+<td><p>Out</p></td>
+<td><p>Back right camera</p></td>
+</tr>
+<tr class="row-odd"><td><p>cam3/image/compressed</p></td>
+<td><p>sensor_msgs.CompressedImage</p></td>
+<td><p>Out</p></td>
+<td><p>Front right camera</p></td>
+</tr>
+<tr class="row-even"><td><p>cam4/image/compressed</p></td>
+<td><p>sensor_msgs.CompressedImage</p></td>
+<td><p>Out</p></td>
+<td><p>Lifter camera</p></td>
+</tr>
+<tr class="row-odd"><td><p>sensor/scan</p></td>
+<td><p>sensor_msgs.PointCloud2</p></td>
+<td><p>Out</p></td>
+<td><p>Distance readings from the 16 IRToF sensors around the perimeter. \ Set subscription qos to qos_profile_sensor_data</p></td>
+</tr>
+<tr class="row-even"><td><p>sensor/imu</p></td>
+<td><p>sensor_msgs.Imu</p></td>
+<td><p>Out</p></td>
+<td><p>IMU readings</p></td>
+</tr>
+<tr class="row-odd"><td><p>odom</p></td>
+<td><p>nav_msgs.Odometry</p></td>
+<td><p>Out</p></td>
+<td><p>Integrated and transformed wheel positions.</p></td>
+</tr>
+<tr class="row-even"><td><p>sensor/battery_state</p></td>
+<td><p>sensor_msgs.BatteryState</p></td>
+<td><p>Out</p></td>
+<td><p>Current battery status</p></td>
+</tr>
+<tr class="row-odd"><td><p>sensor/temp</p></td>
+<td><p>sensor_msgs.Temperature</p></td>
+<td><p>Out</p></td>
+<td><p>Temperature</p></td>
+</tr>
+<tr class="row-even"><td><p>sensor/pressure</p></td>
+<td><p>sensor_msgs.FluidPressure</p></td>
+<td><p>Out</p></td>
+<td><p>Atmospheric pressure</p></td>
+</tr>
+<tr class="row-odd"><td><p>sensor/humidity</p></td>
+<td><p>sensor_msgs.RelativeHumidity</p></td>
+<td><p>Out</p></td>
+<td><p>Relative humidity</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="id3">
+<h4>Microservices<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h4>
+<ul class="simple">
+<li><dl class="simple">
+<dt>Robot Experiment Manager Service</dt><dd><ul>
+<li><p>The service primarily handles the Robot Network feature and creates and launches digital twin and Robot Arena experiments. Digital twin and Robot Arena experiments run as per the creation time.</p></li>
+<li><p>Digital twin and Robot Arena have separate queues from which experiments are picked and deployed. With the current flow, Users can create robot arena experiments only after successfully validating of controller image with a digital twin experiment.</p></li>
+<li><p>Gazebo Simulator is used as a digital twin in Robot Network. A separate Kubernetes Cluster is available to run the Robot simulator experiment on two nodes (x86 and ARM architecture VM). The service handles the deployment of Radio Simulator, Gazebo Persistent Volume, World Listener and Gazebo service on the x86 node and IoT Gateway, micro Gateway and controller services on the ARM node. Virtual serial ports send controller data to the Radio simulator, and around 40 virtual serial ports are created statically.</p></li>
+<li><p>Robot Arena is in a separate Kubernetes cluster where 20 (approx.) physical robots are supported. The technician who will be present near the robots will be responsible for starting, stopping or cancelling the experiment. As an experiment result, a heatmap, a live video feed of the arena and the option to record &amp; download the feed are supported.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+<div class="section" id="containerized-components">
+<h4>Containerized components<a class="headerlink" href="#containerized-components" title="Permalink to this heading"></a></h4>
+<div class="section" id="radio-simulator">
+<h5>Radio Simulator<a class="headerlink" href="#radio-simulator" title="Permalink to this heading"></a></h5>
+<ul class="simple">
+<li><p>The radio simulators provide a REST API for redirected radio serial port messages. The API context/msg is used for sending the redirected serial port messages into the simulator instance (by default on port 80). The response contains the performance estimates for the different destination robots. The experiment container pseudo TTY serial ports are mapped using volume mounts within the container initialisation to permit the multiple experiment containers to coexist on the same VMs using the same serial ports from the experiment perspective. A serial port corresponds to each radio in each robot/experiment container. Hence there are 3 per robot instance; one for UWB and two for Bluetooth. In the future, the testbed could also support a 5G radio. The Wi-Fi device within the RockPi4 main board is not customarily exposed using USB interfaces. However, it is possible to create additional virtual serial ports and use IP to serial encapsulation (i.e. SLIP) to pass messages over the serial port. In this case, four serial ports per robot instance are required.</p></li>
+<li><p>In addition, the REST API for ground truth takes the location position and orientation of the robots obtained from the gazebo simulator. The ground truth position is specified in metres for x,y and z coordinates. The quaternion rotations in radians define the orientation for x,y,z and w. The timestamp is specified in seconds and nanoseconds since the start or system start time.</p></li>
+</ul>
+</div>
+<div class="section" id="iot-gateway">
+<h5>IoT Gateway<a class="headerlink" href="#iot-gateway" title="Permalink to this heading"></a></h5>
+<p>The IoT Gateway exposes the device API, which has the following functions.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>/device/validate       - validate the simulation after the experiment is run
+/device/redirectport   - redirects a serial port to the radio simulator
+/device/bridgeport     - bridges a serial port with SLIP based interface
+/device/closeports     - close serial ports
+/device/uploadfirmware - upload a firmware binary for flashing on the robots
+/device/flash          - flash firmware on a robot (arena)
+/device/map            - retrieve ground truth map
+/device/ports          - retrieve port mapping
+/device/groundtruth    - retrieve (get) the latest ground truth and delete data
+/device/data           - retrieve device (gateway) data
+</pre></div>
+</div>
+<p>Also the <code class="docutils literal notranslate"><span class="pre">/geoserver</span></code> API is exposed as a proxy for obtaining heatmap images from the geoserver.</p>
+</div>
+<div class="section" id="gazebo-simulator">
+<h5>Gazebo Simulator<a class="headerlink" href="#gazebo-simulator" title="Permalink to this heading"></a></h5>
+<ul>
+<li><p>The Gazebo simulator models the robots and their environment. The arena environment is defined using world files, which can be representative of the actual Arenas or more complex deployments.</p>
+<ul class="simple">
+<li><p>Validation mode: uses a predefined arena world (operates in validation mode)</p></li>
+<li><p>User-defined worlds: for evaluation of larger or more complex scenarios</p></li>
+<li><p>Radio simulators: evaluate custom protocol stacks supporting swarm (robot to robot) interaction.</p></li>
+</ul>
+</li>
+<li><p>The gazebo simulator runs in the same EKS cluster as the associated experiment containers and loads world files on initialisation. The world files are predefined for the validation mode and are not replaceable. However, for the experiment mode, they can be overwritten with user-defined files. A volume mount is specified for the worlds directory to achieve defining user-defined files. Experiment containers are initialised for each emulated robot and are passed the environment variable <code class="docutils literal notranslate"><span class="pre">ROBOTID</span></code> to distinguish which robot they correspond to. Robot models are contained in the <code class="docutils literal notranslate"><span class="pre">urdf</span></code> directory and are initialised for each emulated robot within the simulator instance by the experiment containers.</p></li>
+<li><p>When setting up the experiment configuration, the user can specify the friendly name (ROS2 partition prefix/namespace) for each robot instance in the portal GUI. The robot model nodes are instanced for each identifier name (see controller.launch.py).</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>controller_cmd = Node(
+    package     = &#39;dots_example_controller&#39;,
+    executable  = controller_option,
+    namespace   = robot_name,
+    output      = &#39;screen&#39;,
+    parameters  = [ {&#39;use_sim_time&#39; : use_sim_time}]
+)
+</pre></div>
+</div>
+</li>
+<li><p>The controller nodes are also instanced with experiment containers being passed the corresponding robot name via the ROBOTID environment variable. Users can use this for specifying the ROS2 bag folder name for storing log data such as odometry, as shown below.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>ld.add_entity(ExecuteProcess(
+    cmd=[&#39;ros2&#39;, &#39;bag&#39;, &#39;record&#39;,
+        &#39;--compression-mode&#39;, &#39;file&#39;,
+        &#39;--compression-format&#39;, &#39;zstd&#39;,
+        &#39;-o&#39;, &#39;/storage/%s&#39; % bag_name,
+        &#39;/%s/odom&#39; % bag_name.replace(&quot;-0&quot;,&quot;&quot;)],
+    output=&#39;screen&#39;
+))
+</pre></div>
+</div>
+</li>
+<li><p>All ROS2 DDS messages are then prefixed with the corresponding robot identifier within the robot local domain.</p></li>
+<li><p>The ROS2bag logs are saved into files in the robot_data volume mount passed to the docker containers (/storage folder).</p></li>
+<li><p>The P3D plugin publishes the ground truth from the simulator to the IoT Gateway, which is then passed to the appropriate radio simulator instances and stored in the Postgres database.</p></li>
+</ul>
+</div>
+<div class="section" id="map-and-video-visualisations">
+<h5>Map and video visualisations<a class="headerlink" href="#map-and-video-visualisations" title="Permalink to this heading"></a></h5>
+<ul class="simple">
+<li><p>Ground truth map visualisation shall permit the overlay of spatial sensor data such as heat maps, ground truth telemetry or other information. The testbed will provide the normal zoom and scroll capabilities with the ability to select and show different layers in a specified manner overlaid onto spatial maps. For instance, spatially interpolated sensor data heat maps or nodes and links with status colour coding. Users can use open layers or simple javascript frontend and Geoserver backend for this purpose.</p>
+<ul>
+<li><p>The ground truth maps URL is: <code class="docutils literal notranslate"><span class="pre">http://&lt;IOT_GW_ADDRESS&gt;:8080/device/map</span></code></p></li>
+<li><p>For the heat map overlay the URL is: <code class="docutils literal notranslate"><span class="pre">http://&lt;IOT_GW_ADDRESS&gt;:8080/device/map?maptype=heatmap</span></code></p></li>
+</ul>
+</li>
+<li><p>For video streams, Users shall enable a simple selection function if multiple video sources are available. The experiment will display the video in an iFrame or video object in the portal window. The video server is hosted on the same arena server and is accessible via port 80.</p></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="lora-testbed">
+<h2>Lora Testbed<a class="headerlink" href="#lora-testbed" title="Permalink to this heading"></a></h2>
+<p>Microservices</p>
+<ul class="simple">
+<li><p>Lora service</p>
+<ul>
+<li><p>Lora Service provides a wrapper interface over the Chirpstack Application server APIs to access and modify the Lora resources.</p></li>
+<li><p>Lora resources information is not stored in Lora Service except the organization name and user name; all the information is maintained by Chirpstack storage.</p></li>
+<li><p>It also allows the approval process for creating an organization and adding a user to an organization from Lora admin and organization admin, respectively.</p></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="0_Introduction.html" class="btn btn-neutral float-left" title="Introduction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="2_GettingStarted.html" class="btn btn-neutral float-right" title="Getting Started" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Umbrella.</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

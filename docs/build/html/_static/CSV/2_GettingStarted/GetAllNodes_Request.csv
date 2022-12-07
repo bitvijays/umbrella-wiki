@@ -1,0 +1,1 @@
+﻿GET,/sn/api/v1/nodes/all/view/nodes/all/{sensor name },application/json

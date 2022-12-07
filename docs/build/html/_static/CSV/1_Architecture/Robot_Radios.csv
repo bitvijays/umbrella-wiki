@@ -1,0 +1,2 @@
+﻿Bluetooth,two nRF52840-based radios (/dev/ttyACM0 and /dev/ttyACM1)
+WiFi,802.11ac compliant onboard radio

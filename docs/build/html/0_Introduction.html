@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Introduction &mdash; UMBRELLA Wiki 0.0.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/clipboard.min.js"></script>
+        <script src="_static/copybutton.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Architecture" href="1_Architecture.html" />
+    <link rel="prev" title="Documentation" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html">
+            <img src="_static/umbrella_logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#testbeds">Testbeds</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#smart-city-sensing-and-wireless-testbed">Smart City Sensing and Wireless Testbed</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#testbed-features-and-benefits">Testbed features and Benefits</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#robotics-testbed">Robotics Testbed</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id1">Testbed features and Benefits</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#use-case-key-features">Use-case key features</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#lora-testbed">Lora Testbed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#users">Users</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#hardware-developers">Hardware Developers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#software-developers">Software Developers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#data-users">Data Users</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#platform-users">Platform Users</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#use-cases">Use cases</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Smart City Sensing and Wireless Testbed</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#air-quality-sensing">Air Quality Sensing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#street-light-monitoring">Street Light monitoring</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#large-scale-wireless-testbed">Large Scale Wireless Testbed</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">Robotics Testbed</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#swarm-robotics">SWARM Robotics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#private-5g-use-case-for-warehousing-and-logistics">Private 5G Use-case for Warehousing and Logistics</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id15">Lora Testbed</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="1_Architecture.html">Architecture</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="1_Architecture.html#smart-city-sensing-and-wireless-testbed">Smart City Sensing and Wireless Testbed</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="1_Architecture.html#hardware">Hardware</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="1_Architecture.html#backend-tier">Backend Tier</a></li>
+<li class="toctree-l4"><a class="reference internal" href="1_Architecture.html#edge-tier">Edge Tier</a></li>
+<li class="toctree-l4"><a class="reference internal" href="1_Architecture.html#endpoint-tier">Endpoint Tier</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="1_Architecture.html#software">Software</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="1_Architecture.html#microservices">Microservices</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="1_Architecture.html#robotics-testbed">Robotics Testbed</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="1_Architecture.html#id1">Hardware</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="1_Architecture.html#robot-specifications">Robot Specifications</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="1_Architecture.html#id2">Software</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="1_Architecture.html#software-stack-layer">Software stack layer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="1_Architecture.html#interfaces">Interfaces</a></li>
+<li class="toctree-l4"><a class="reference internal" href="1_Architecture.html#id3">Microservices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="1_Architecture.html#containerized-components">Containerized components</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="1_Architecture.html#lora-testbed">Lora Testbed</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="2_GettingStarted.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="2_GettingStarted.html#user-registration">User Registration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="2_GettingStarted.html#steps">Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="2_GettingStarted.html#umbrella-networks">Umbrella Networks</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="2_GettingStarted.html#id1">Steps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="2_GettingStarted.html#creating-container-images">Creating Container Images</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="2_GettingStarted.html#data-communication">Data Communication</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="2_GettingStarted.html#creating-binary-images">Creating Binary Images</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="2_GettingStarted.html#toolchain-setup">Toolchain Setup</a></li>
+<li class="toctree-l4"><a class="reference internal" href="2_GettingStarted.html#cloning-and-patching-contiki-ng">Cloning and Patching Contiki-NG</a></li>
+<li class="toctree-l4"><a class="reference internal" href="2_GettingStarted.html#building-firmware">Building firmware</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="2_GettingStarted.html#robotic-networks">Robotic Networks</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="2_GettingStarted.html#id4">Steps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="2_GettingStarted.html#creating-images">Creating Images</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="2_GettingStarted.html#controller-image">Controller Image</a></li>
+<li class="toctree-l4"><a class="reference internal" href="2_GettingStarted.html#radio-simulator-image">Radio Simulator Image</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="2_GettingStarted.html#creating-configuration">Creating Configuration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="2_GettingStarted.html#configuration-files">Configuration Files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="2_GettingStarted.html#world-files">World Files</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="2_GettingStarted.html#creating-binaries">Creating Binaries</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="2_GettingStarted.html#lora-networks">Lora Networks</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="2_GettingStarted.html#creating-applications">Creating Applications</a></li>
+<li class="toctree-l3"><a class="reference internal" href="2_GettingStarted.html#creating-service-profiles">Creating Service Profiles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="2_GettingStarted.html#device-profiles">Device Profiles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="2_GettingStarted.html#integrations">Integrations</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="2_GettingStarted.html#street-lights">Street Lights</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2_GettingStarted.html#air-quality-dashboard">Air Quality Dashboard</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="2_GettingStarted.html#id7">Steps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="2_GettingStarted.html#sensor-api">Sensor API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="2_GettingStarted.html#authorization">Authorization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="2_GettingStarted.html#login">Login</a></li>
+<li class="toctree-l4"><a class="reference internal" href="2_GettingStarted.html#get-list-of-nodes">Get List of Nodes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="2_GettingStarted.html#get-sensor-data">Get Sensor Data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="2_GettingStarted.html#get-all-nodes-for-a-sensor">Get All Nodes for a Sensor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="2_GettingStarted.html#get-list-of-sensors">Get List of Sensors</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="99_Contact.html">Contact</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">UMBRELLA Wiki</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Introduction</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading"></a></h1>
+<ul class="simple">
+<li><p>UMBRELLA stands for The Urban Multi wireless BRoadband and IoT tEsting for LocaL authority and industrial Applications.</p></li>
+<li><p>It aims to be a centre of excellence for open research, innovation, and future industrial IoT and integrate many testbeds into a single system and address different use cases, including Smart City test beds for air quality monitoring, remote maintenance, and radio testing; Cybersecurity test beds; industrial 5g; and collaborative robotics.</p></li>
+<li><p>Supported by the <a class="reference external" href="https://www.westofengland-ca.gov.uk/about-us/local-enterprise-partnership/">West of England Local Enterprise Partnership</a> in conjunction with <a class="reference external" href="https://www.southglos.gov.uk/">South Gloucestershire Council</a>.</p></li>
+</ul>
+<p>Here is a small video to provide a brief introduction.</p>
+
+    <video width="500" height="300" controls >
+    <source src="_static/Video/Umbrella_Video2.mp4" type="video/mp4">
+    Video
+    </video>
+    <div class="section" id="testbeds">
+<h2>Testbeds<a class="headerlink" href="#testbeds" title="Permalink to this heading"></a></h2>
+<p>UMBRELLA consists of three testbeds</p>
+<ul class="simple">
+<li><p>Smart City Sensing and Wireless</p></li>
+<li><p>Robotics</p></li>
+<li><p>LoRa</p></li>
+</ul>
+<div class="section" id="smart-city-sensing-and-wireless-testbed">
+<h3>Smart City Sensing and Wireless Testbed<a class="headerlink" href="#smart-city-sensing-and-wireless-testbed" title="Permalink to this heading"></a></h3>
+<ul>
+<li><p>Deployed from the UWE Frenchay campus east to Bristol and Bath Science Park west, along the A4174 (a key thoroughfare in South Gloucestershire).</p></li>
+<li><p>Provides a real-world platform for testing wireless algorithms, protocols, and smart city sensing.</p></li>
+<li><p>Consists of</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>230 UMBRELLA Nodes (mounted on lamp posts)</p></li>
+<li><p>1000+ Wireless radio nodes</p></li>
+<li><p>1500+ Sensors (temperature, air quality and ambient noise levels)</p></li>
+<li><p>100 Edge AI nodes</p></li>
+<li><p>1 Gbps Fibre backbone</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<div class="section" id="testbed-features-and-benefits">
+<h4>Testbed features and Benefits<a class="headerlink" href="#testbed-features-and-benefits" title="Permalink to this heading"></a></h4>
+<ul class="simple">
+<li><p>Allows scheduling and monitoring of experiments running in the testbeds using Kubernetes/Docker-based upload and deployment of experiment software.</p></li>
+<li><p>Customised firmware binary upload for radios with radio simulators to emulate radios performance.</p></li>
+<li><p>Test AI and Machine Learning algorithms on over 100 edge-capable nodes.</p></li>
+<li><p>Container log file retrieval for offline analysis with push sensor data capabilities to external servers and data visualisation using Grafana.</p></li>
+<li><p>Single Sign-On (SSO) with role-based access control to securely access testbed resources through REST APIs.</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="robotics-testbed">
+<h3>Robotics Testbed<a class="headerlink" href="#robotics-testbed" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p>The first testbed supporting both multi-radio customisable protocol and SWARM simulation and arena deployment.</p></li>
+<li><p>Situated in the Bristol Robotics Lab (BRL) consisting of a 5x5m arena, 20 robotic nodes, and several obstacles and platforms.</p></li>
+</ul>
+<div class="section" id="id1">
+<h4>Testbed features and Benefits<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h4>
+<ul class="simple">
+<li><p>Dockerised container experimentation (Easy deployment and management of experiments)</p></li>
+<li><p><a class="reference external" href="https://www.ros.org/">ROS2</a> and <a class="reference external" href="https://opendds.org/">Data Distribution Service</a> (Secure and real-time pub/sub)</p></li>
+<li><p>Gazebo Digital Playground (Realistic validation and experimentation)</p></li>
+<li><p>Robot nodes (Lifter actuator + Many sensors/radios for flexibility)</p></li>
+<li><p>Ground truth telemetry (High resolution and accuracy for record + comparison/playback)</p></li>
+<li><p>Multi-wireless technology, including private 5G (Bluetooth, UWB, Wi-Fi, private 5G)</p></li>
+<li><p>The digital twin simulator allows running experiments virtually before taking to the robot arena.</p></li>
+</ul>
+</div>
+<div class="section" id="use-case-key-features">
+<h4>Use-case key features<a class="headerlink" href="#use-case-key-features" title="Permalink to this heading"></a></h4>
+<ul class="simple">
+<li><p>Use the testbed to evaluate communications protocols and swarm AI algorithms for a robotic solution.</p></li>
+<li><p>Simulation models (such as Gazebo) with customisable environments/worlds</p></li>
+<li><p>Evaluation of SWARM for Warehouse applications (fetch/carry) using:</p>
+<ul>
+<li><p>Radio communication protocols optimised for collaborative robotics</p></li>
+<li><p>Rich set of sensors and actuators, and cameras</p></li>
+</ul>
+</li>
+<li><p>Other applications that users can evaluate:</p>
+<ul>
+<li><p>Surveying, environment mapping, remote operation assisted multi-robot systems and functional safety aspects of cooperative robotics</p></li>
+<li><p>Large SWARM/environment scenarios (through simulation)</p></li>
+<li><p>Wireless/minimal infrastructure localisation technologies</p></li>
+</ul>
+</li>
+<li><p>Decentralised industrial IoT Bus support using DDS/ROS2</p></li>
+<li><p>Optitrack™ ground truth data with millimetre accuracy for tracking robots and performance evaluation</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="lora-testbed">
+<h3>Lora Testbed<a class="headerlink" href="#lora-testbed" title="Permalink to this heading"></a></h3>
+<div class="admonition-todo admonition" id="id2">
+<p class="admonition-title">Todo</p>
+<p>Write about Lora-testbed</p>
+</div>
+</div>
+</div>
+<div class="section" id="users">
+<h2>Users<a class="headerlink" href="#users" title="Permalink to this heading"></a></h2>
+<div class="section" id="hardware-developers">
+<h3>Hardware Developers<a class="headerlink" href="#hardware-developers" title="Permalink to this heading"></a></h3>
+<p>Developers can test the sensors or radio hardware. The hardware can be connected to an UMBRELLA node using standard interfaces such as USB, I2C and SPI.</p>
+</div>
+<div class="section" id="software-developers">
+<h3>Software Developers<a class="headerlink" href="#software-developers" title="Permalink to this heading"></a></h3>
+<p>The developers can evaluate software algorithms and wireless protocol on the existing hardware on the UMBRELLA network.</p>
+</div>
+<div class="section" id="data-users">
+<h3>Data Users<a class="headerlink" href="#data-users" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p>Gain access to the data collected by over 1500 sensors across a large geographical area, both live and historic.</p></li>
+<li><p>Data types include temperature, humidity, pm2.5, pm10, ambient noise, oxidising gas, spectrum sensing and GPS localisation.</p></li>
+</ul>
+</div>
+<div class="section" id="platform-users">
+<h3>Platform Users<a class="headerlink" href="#platform-users" title="Permalink to this heading"></a></h3>
+<p>The umbrella platform allows software and application development with consultation with the team and project requirements.</p>
+</div>
+</div>
+<div class="section" id="use-cases">
+<h2>Use cases<a class="headerlink" href="#use-cases" title="Permalink to this heading"></a></h2>
+<div class="section" id="id3">
+<h3>Smart City Sensing and Wireless Testbed<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
+<p>The smart city sensing and wireless testbed have multiple use cases, such as air quality sensing, street light monitoring, and large-scale wireless radio testing.</p>
+<div class="section" id="air-quality-sensing">
+<h4>Air Quality Sensing<a class="headerlink" href="#air-quality-sensing" title="Permalink to this heading"></a></h4>
+<div class="section" id="challenge">
+<h5>Challenge<a class="headerlink" href="#challenge" title="Permalink to this heading"></a></h5>
+<p>Air quality is affected by several factors relating to traffic:</p>
+<ul class="simple">
+<li><p>Whether the traffic is flowing or standing.</p></li>
+<li><p>Traffic composition: the ratio of old to new vehicles, fuel types, and engine start/stop technology prevalence.</p></li>
+<li><p>The speed of the vehicles: the slower, the higher the concentration of pollution particles.</p></li>
+<li><p>Location: pollutants concentration quickly deteriorates as we move away from the carriageway.</p></li>
+<li><p>Street layout and adjacent building height (e.g. canyon effects)</p></li>
+</ul>
+<p>The air quality is often measured using sample tubes placed at monitoring locations and collected over a few months making limited observation points for effective policy-making around pollution risk mitigation.</p>
+</div>
+<div class="section" id="approach">
+<h5>Approach<a class="headerlink" href="#approach" title="Permalink to this heading"></a></h5>
+<ul class="simple">
+<li><p>The UMBRELLA node allows the real-time measurement and collection of data on Volatile Organic Compunds (VOC) Index, RED, Ozone, Ammonia, PM 2.5, PM 10, air temperature, air humidity, air quality index, and NO2.</p></li>
+<li><p>UMBRELLA nodes can be placed roadside on lampposts every few tens of meters on either side of the road to ensure appropriate coverage.</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="street-light-monitoring">
+<h4>Street Light monitoring<a class="headerlink" href="#street-light-monitoring" title="Permalink to this heading"></a></h4>
+<div class="section" id="id4">
+<h5>Challenge<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h5>
+<ul class="simple">
+<li><p>Street lighting’s primary function is to extend the number of light hours to allow activities to continue past sunset, especially in the darker winter months. In addition, street lights promote security in urban areas and generally make the use of roads and pathways safer. The City council must resolve issues with street lights as soon as possible to prevent a potential accident.</p></li>
+<li><p>The city council often turn on the street lights 15 minutes before sunset and turns them off 15 minutes after sunrise. Street teams run periodic manual checks (roughly every four weeks) by driving along stretches of road to check if street lights are showing normal behaviour, turning off and on when they are supposed to.</p></li>
+</ul>
+</div>
+<div class="section" id="id5">
+<h5>Approach<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h5>
+<ul class="simple">
+<li><p>UMBRELLA nodes monitor the street light working with camera nodes attached to the top, pointing upwards towards the street light and sky.</p></li>
+<li><p>The camera collects images of the street lights at various times to train a machine-learning model that determines if a streetlight is on and off at the appropriate times.</p></li>
+<li><p>Once the machine learning algorithm detects that a street light is not working as intended, an alert is sent to the street care team, meaning they can monitor streetlights passively whilst undertaking other tasks.</p></li>
+<li><p>The service allows the street care team to check the street lights’ status in real-time without travelling to the street lights themselves.</p></li>
+</ul>
+</div>
+<div class="section" id="benefits">
+<h5>Benefits<a class="headerlink" href="#benefits" title="Permalink to this heading"></a></h5>
+<ul class="simple">
+<li><p>Reduction in person hours, vehicle maintenance and fuel will translate into cost reductions for the street care team.</p></li>
+<li><p>Monitor the real-time status of any connected street light without needing to visit it.</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="large-scale-wireless-testbed">
+<h4>Large Scale Wireless Testbed<a class="headerlink" href="#large-scale-wireless-testbed" title="Permalink to this heading"></a></h4>
+<div class="section" id="id6">
+<h5>Challenge<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h5>
+<ul class="simple">
+<li><p>The Internet of Things (IoT) enables sensors to collect and share data about their environments via the internet and make them “smart”. It is crucial to design, develop and rigorously test the wireless protocol (e.g. Wi-Fi, 5G, Bluetooth) used for network connectivity.</p></li>
+</ul>
+</div>
+<div class="section" id="id7">
+<h5>Approach<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h5>
+<ul class="simple">
+<li><p>UMBRELLA’s node includes multiple wireless technologies, including short-range, long-range, cellular, non-cellular, licensed and unlicensed technologies.</p></li>
+<li><p>The nodes are placed in indoor and outdoor locations, with the majority located in real-world locations across the South Gloucestershire region.</p></li>
+<li><p>Radios include IEEE 802.15.4, Bluetooth Low Energy, Ultrawideband, LTE/5G, NB-IoT, LoRa,</p></li>
+<li><p>The UMBRELLA platform includes various tools that allow running network diagnostics, visualising wireless networks, collecting performance metrics and evaluating them against one another.</p></li>
+</ul>
+</div>
+<div class="section" id="id8">
+<h5>Benefits<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h5>
+<ul class="simple">
+<li><p>The presence of multiple radios in one testbed allows users to test their applications and protocols with various wireless technologies and evaluate them on one platform.</p></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="section" id="id9">
+<h3>Robotics Testbed<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h3>
+<div class="section" id="swarm-robotics">
+<h4>SWARM Robotics<a class="headerlink" href="#swarm-robotics" title="Permalink to this heading"></a></h4>
+<div class="section" id="id10">
+<h5>Challenge<a class="headerlink" href="#id10" title="Permalink to this heading"></a></h5>
+<ul class="simple">
+<li><p>In warehouse environments, robots move objects of various shapes and sizes without colliding and misjudging the objects. Without swarm robotic technology, the robots use centralised methods to collaborate and coordinate their movements requiring centralised processing and communication (expensive in terms of infrastructure required).</p></li>
+<li><p>The Collaborative warehouse storage solution uses swarm robotic technology, which exploits multiple robots collectively moving pallets containing objects. It improves performance, measured in terms of the time taken to store/retrieve the pallets and the resources, including battery energy.</p></li>
+<li><p>Existing testbeds (<a class="reference external" href="https://arxiv.org/abs/1609.04730">Robotarium</a> and <a class="reference external" href="https://www.fed4fire.eu/testbeds/iris/">IRIS</a>) support collaborative robotics experimentation and are primarily used for general swarm algorithm research and evaluation rather than being use-case specific.</p></li>
+</ul>
+</div>
+<div class="section" id="id11">
+<h5>Approach<a class="headerlink" href="#id11" title="Permalink to this heading"></a></h5>
+<ul class="simple">
+<li><p>Swarm robots coordinate their activities in an autonomous self-configuring manner requiring no reliance on the infrastructure being deployed.</p></li>
+<li><p>The Swarm robots use various sensors, including distance, camera, and radios, to obtain environmental information. Robots process this information, and it forms the basis of their actions. The robots also contain radios to communicate with each other.</p></li>
+<li><p>Digital twins are used to evaluate and optimise or evolve the algorithms. Algorithms are created and deployed to the digital twin simulator environment and the robots. The algorithms set goals and tasks for the robots to achieve. Performance is measured by how they collectively tackle these challenges.</p></li>
+<li><p>Objects or pallets to be moved by the robots and obstacles hinder the robot’s movements. Users can involve up to 20 swarm robots in each experiment. Ground truth data is collected to validate and evaluate the performance of the robots in fulfilling their tasks.</p></li>
+</ul>
+</div>
+<div class="section" id="id12">
+<h5>Benefits<a class="headerlink" href="#id12" title="Permalink to this heading"></a></h5>
+<ul class="simple">
+<li><p>Algorithms can be optimised and evaluated for performing particular tasks and environments without prior knowledge of the environment or infrastructure.</p></li>
+<li><p>Digital twin environments permit accurate representation and comparison with the real arena environment for validating, evolving, or optimising the algorithms.</p></li>
+<li><p>Zero initial configuration and infrastructure required.</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="private-5g-use-case-for-warehousing-and-logistics">
+<h4>Private 5G Use-case for Warehousing and Logistics<a class="headerlink" href="#private-5g-use-case-for-warehousing-and-logistics" title="Permalink to this heading"></a></h4>
+<div class="section" id="id13">
+<h5>Challenge<a class="headerlink" href="#id13" title="Permalink to this heading"></a></h5>
+<ul class="simple">
+<li><p>5G provides an unprecedented capability of a unified wireless interface for diverse IIoT applications.</p></li>
+<li><p>Private 5G networks provide customised service with dedicated coverage, capacity, and intrinsic network control.</p></li>
+<li><p>Most existing testbeds lack 5G capabilities as an end-to-end IIoT system.</p></li>
+</ul>
+</div>
+<div class="section" id="id14">
+<h5>Approach<a class="headerlink" href="#id14" title="Permalink to this heading"></a></h5>
+<ul class="simple">
+<li><p>The UMBRELLA offers the capability to test, evaluate, and trial private 5G technology and support different use cases, such as versatile warehousing and logistics scenarios, as part of an end-to-end IIoT system.</p></li>
+<li><p>Private 5G connectivity is provided through a 5G network-in-a-box solution which includes a radio access network (RAN) and a core network and supports commercial off-the-shelf (COTS) devices like handsets and dongles.</p></li>
+<li><p>The private 5G network is based on non-standalone (NSA) mode and can operate in several sub-6 GHz frequency bands, including those opened explicitly for private deployments.</p></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="section" id="id15">
+<h3>Lora Testbed<a class="headerlink" href="#id15" title="Permalink to this heading"></a></h3>
+<div class="admonition-todo admonition" id="id16">
+<p class="admonition-title">Todo</p>
+<p>Write use-cases from Lora</p>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="1_Architecture.html" class="btn btn-neutral float-right" title="Architecture" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Umbrella.</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

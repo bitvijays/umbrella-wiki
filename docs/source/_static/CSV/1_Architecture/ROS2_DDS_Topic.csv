@@ -1,0 +1,20 @@
+﻿power_en,std_msgs.Bool,In,Enable actuator power (motor and lifter). This is a watchdog reset that starts a 50ms hardware countdown and power will be cut without repeated true messages received. This must be sent by the control server only when the big red button is enabled.
+motor_en,std_msgs.Bool,In,Enable motor control. \\ Power must also be enabled for the motors to run.
+cmd_vel,geometry_msgs.Twist,In,Set velocity and angular velocity of motor drive.
+lifter,td_msgs.Bool,In,The value True causes the lifter to move to a raised position. \\ The value false causes the lifter to be moved to a lowered position. \\ A message received while lifter is in motion will change motion if new goal is different
+led,std_msgs.Int32MultiArray,In,RGB control of the 16 perimeter LEDs. \\ 16 entry array with (B[23:16]; G[15:8]; R[7:0])
+sensor/mode,std_msgs.Int32,In, 0 - Normal operation; 1 - Run IMU calibration
+reflect_in,std_msgs.Float64,In,Ping message in
+reflect_out,std_msgs.Float64,Out,Ping message out
+cam0/image/compressed,sensor_msgs.CompressedImage,Out,Front left camera. All cameras are 640x480 30fps MJPEG
+cam1/image/compressed,sensor_msgs.CompressedImage,Out,Back left camera
+cam2/image/compressed,sensor_msgs.CompressedImage,Out,Back right camera
+cam3/image/compressed,sensor_msgs.CompressedImage,Out,Front right camera
+cam4/image/compressed,sensor_msgs.CompressedImage,Out,Lifter camera
+sensor/scan,sensor_msgs.PointCloud2,Out,Distance readings from the 16 IRToF sensors around the perimeter. \\ Set subscription qos to qos_profile_sensor_data
+sensor/imu,sensor_msgs.Imu,Out,IMU readings
+odom,nav_msgs.Odometry,Out,Integrated and transformed wheel positions.
+sensor/battery_state,sensor_msgs.BatteryState,Out,Current battery status
+sensor/temp,sensor_msgs.Temperature,Out,Temperature
+sensor/pressure,sensor_msgs.FluidPressure,Out,Atmospheric pressure
+sensor/humidity,sensor_msgs.RelativeHumidity,Out,Relative humidity

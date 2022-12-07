@@ -1,0 +1,3 @@
+﻿sensors,Payload,True,string,Name of the Sensors
+Nodes,Payload,True,string,Name of the nodes
+timeperiod,Payload,False,Object,Time duration to retrieve sensor data. If not mentioned it will provide last 06 hours data.

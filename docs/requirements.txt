@@ -1,3 +1,6 @@
 sphinx
 sphinx-rtd-theme
 sphinxcontrib-video
+sphinx-copybutton
+myst-parser
+sphinx_theme
